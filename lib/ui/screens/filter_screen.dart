@@ -2,10 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/bloc.dart';
 import '../../core/constants/constants.dart';
+import '../../data/models/models.dart';
+import '../widgets/widgets.dart';
 
 /// Screen for filtering tickets with dynamic filter options
-class FilterScreen extends StatelessWidget {
+/// Supports multiple filter display types: chips, dropdown, checkbox list, search with chips
+class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
+
+  @override
+  State<FilterScreen> createState() => _FilterScreenState();
+}
+
+class _FilterScreenState extends State<FilterScreen> {
+  /// Search controller for searchable filter groups
+  final Map<String, TextEditingController> _searchControllers = {};
+  final Map<String, String> _searchQueries = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Load filter options only if not already loaded
+    final state = context.read<TicketBloc>().state;
+    if (state.filterGroups.isEmpty) {
+      context.read<TicketBloc>().add(const LoadFilterOptions());
+    }
+  }
+
+  @override
+  void dispose() {
+    for (final controller in _searchControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,22 +64,34 @@ class FilterScreen extends StatelessWidget {
       ),
       centerTitle: false,
       actions: [
-        TextButton(
-          onPressed: () {
-            // Build selected filters map and apply
-            final state = context.read<TicketBloc>().state;
-            final selectedFilters = <String, List<String>>{};
-            for (final group in state.filterGroups) {
-              final selectedIds = group.options.where((o) => o.isSelected).map((o) => o.value).toList();
-              if (selectedIds.isNotEmpty) selectedFilters[group.id] = selectedIds;
-            }
-            context.read<TicketBloc>().add(ApplyFilters(selectedFilters: selectedFilters));
-            Navigator.of(context).pop();
+        // Clear filters button
+        BlocBuilder<TicketBloc, TicketState>(
+          builder: (context, state) {
+            final hasSelections = state.filterGroups.any(
+              (group) => group.options.any((o) => o.isSelected),
+            );
+            if (!hasSelections) return const SizedBox.shrink();
+            return TextButton(
+              onPressed: () {
+                context.read<TicketBloc>().add(const ResetFilterSelections());
+              },
+              child: const Text(
+                'Clear',
+                style: TextStyle(
+                  color: AppColors.error,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            );
           },
+        ),
+        // Apply button
+        TextButton(
+          onPressed: () => _applyFilters(context),
           child: const Text(
             'Apply',
             style: TextStyle(
-              color: AppColors.textHint,
+              color: AppColors.primary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -58,171 +100,392 @@ class FilterScreen extends StatelessWidget {
     );
   }
 
+  void _applyFilters(BuildContext context) {
+    final state = context.read<TicketBloc>().state;
+    final selectedFilters = <String, List<String>>{};
+    
+    for (final group in state.filterGroups) {
+      final selectedValues = group.options
+          .where((o) => o.isSelected)
+          .map((o) => o.value)
+          .toList();
+      if (selectedValues.isNotEmpty) {
+        selectedFilters[group.id] = selectedValues;
+      }
+    }
+    
+    context.read<TicketBloc>().add(ApplyFilters(selectedFilters: selectedFilters));
+    Navigator.of(context).pop();
+  }
+
   Widget _buildBody(BuildContext context) {
     return BlocBuilder<TicketBloc, TicketState>(
       builder: (context, state) {
         if (state.filterGroups.isEmpty) {
-          return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.primary),
+          );
         }
 
-        // Example static brands.
-        final brands = [
-          'Gains',
-          'GainSolution',
-          'GainHQ',
-        ];
-
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL, vertical: AppDimensions.paddingM),
-          children: [
-            const SizedBox(height: AppDimensions.spacingM),
-
-            // Brand section
-            const Text(
-              'Brand',
-              style: TextStyle(fontSize: AppDimensions.fontL, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
-            ),
-            const SizedBox(height: AppDimensions.spacingL),
-            ...brands.map((b) => _buildBrandRow(b)).toList(),
-            const SizedBox(height: AppDimensions.spacingXL),
-
-            // Priority
-            const Text(
-              'Priority',
-              style: TextStyle(fontSize: AppDimensions.fontL, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
-            ),
-            const SizedBox(height: AppDimensions.spacingM),
-            _buildPriorityDropdown(context, state),
-            const SizedBox(height: AppDimensions.spacingXL),
-
-            // Tags
-            const Text(
-              'Tags',
-              style: TextStyle(fontSize: AppDimensions.fontL, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
-            ),
-            const SizedBox(height: AppDimensions.spacingM),
-            _buildTagSearch(),
-            const SizedBox(height: AppDimensions.spacingM),
-            _buildTagChips(),
-            const SizedBox(height: AppDimensions.spacingXXL),
-          ],
+        return ListView.builder(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.paddingL,
+            vertical: AppDimensions.paddingM,
+          ),
+          itemCount: state.filterGroups.length,
+          itemBuilder: (context, index) {
+            final group = state.filterGroups[index];
+            return _buildFilterGroup(context, group);
+          },
         );
       },
     );
   }
 
-  Widget _buildBrandRow(String brand) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
-      child: Row(
-        children: [
-          Checkbox(value: false, onChanged: (_) {}),
-          const SizedBox(width: AppDimensions.spacingM),
-          CircleAvatar(
-            radius: 18,
-            backgroundColor: AppColors.primary,
-            child: const Icon(Icons.business, color: AppColors.textOnPrimary),
+  /// Build filter group based on its display type
+  Widget _buildFilterGroup(BuildContext context, FilterGroup group) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: AppDimensions.spacingM),
+        // Title
+        Text(
+          group.title,
+          style: const TextStyle(
+            fontSize: AppDimensions.fontL,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
           ),
-          const SizedBox(width: AppDimensions.spacingM),
-          Text(brand, style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textPrimary)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPriorityDropdown(BuildContext context, TicketState state) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: DropdownButtonFormField<String>(
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: AppDimensions.paddingL, vertical: AppDimensions.paddingM),
-          border: InputBorder.none,
         ),
-        hint: const Text('Select priority', style: TextStyle(color: AppColors.textHint)),
-        items: const [
-          DropdownMenuItem(value: 'low', child: Text('Low')),
-          DropdownMenuItem(value: 'medium', child: Text('Medium')),
-          DropdownMenuItem(value: 'high', child: Text('High')),
-          DropdownMenuItem(value: 'critical', child: Text('Critical')),
-        ],
-        onChanged: (v) {},
-      ),
+        const SizedBox(height: AppDimensions.spacingM),
+        // Content based on display type
+        _buildFilterContent(context, group),
+        const SizedBox(height: AppDimensions.spacingXL),
+      ],
     );
   }
 
-  Widget _buildTagSearch() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL, vertical: AppDimensions.paddingM),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Row(
-        children: const [
-          Icon(Icons.search, color: AppColors.iconSecondary),
-          SizedBox(width: AppDimensions.spacingM),
-          Expanded(child: Text('Search tags', style: TextStyle(color: AppColors.textHint)))
-        ],
-      ),
-    );
+  Widget _buildFilterContent(BuildContext context, FilterGroup group) {
+    switch (group.displayType) {
+      case FilterDisplayType.chips:
+        return _buildChipsFilter(context, group);
+      case FilterDisplayType.dropdown:
+        return _buildDropdownFilter(context, group);
+      case FilterDisplayType.checkboxList:
+        return _buildCheckboxListFilter(context, group);
+      case FilterDisplayType.searchWithChips:
+        return _buildSearchWithChipsFilter(context, group);
+    }
   }
 
-  Widget _buildTagChips() {
-    final tags = [
-      'Tag one', 'Tag two', 'Tag three wit long text', 'Tag four', 'Tag five', 'Tag six with long text', 'Tag seven'
-    ];
-
+  /// Build horizontal scrollable chips filter
+  Widget _buildChipsFilter(BuildContext context, FilterGroup group) {
     return Wrap(
       spacing: AppDimensions.spacingS,
       runSpacing: AppDimensions.spacingS,
-      children: tags.map((t) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingM, vertical: AppDimensions.paddingXS),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Text(t, style: const TextStyle(color: AppColors.textPrimary)),
+      children: group.options.map((option) {
+        return _FilterChip(
+          label: option.label,
+          isSelected: option.isSelected,
+          colorHex: option.colorHex,
+          onTap: () {
+            context.read<TicketBloc>().add(ToggleFilterOption(
+              groupId: group.id,
+              optionId: option.id,
+            ));
+          },
         );
       }).toList(),
     );
   }
 
+  /// Build dropdown filter
+  Widget _buildDropdownFilter(BuildContext context, FilterGroup group) {
+    final selectedOption = group.options.where((o) => o.isSelected).firstOrNull;
+    
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppDimensions.paddingL,
+        vertical: AppDimensions.paddingM,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+        border: Border.all(color: AppColors.border),
+        color: AppColors.background,
+      ),
+      child: PopupMenuButton<String>(
+        offset: const Offset(0, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+        ),
+        elevation: 8,
+        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width - 64),
+        itemBuilder: (context) {
+          return group.options.map((option) {
+            return PopupMenuItem<String>(
+              value: option.id,
+              child: Row(
+                children: [
+                  if (option.colorHex != null) ...[
+                    Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: _hexToColor(option.colorHex!),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: AppDimensions.spacingM),
+                  ],
+                  Expanded(child: Text(option.label)),
+                  if (option.isSelected)
+                    const Icon(Icons.check, size: 20, color: AppColors.primary),
+                ],
+              ),
+            );
+          }).toList();
+        },
+        onSelected: (value) {
+          // For single-select, clear previous selections first
+          final bloc = context.read<TicketBloc>();
+          for (final option in group.options) {
+            if (option.isSelected && option.id != value) {
+              bloc.add(ToggleFilterOption(groupId: group.id, optionId: option.id));
+            }
+          }
+          // Toggle the new selection
+          final targetOption = group.options.firstWhere((o) => o.id == value);
+          if (!targetOption.isSelected) {
+            bloc.add(ToggleFilterOption(groupId: group.id, optionId: value));
+          }
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (selectedOption != null) ...[
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (selectedOption.colorHex != null)
+                    Container(
+                      width: 12,
+                      height: 12,
+                      margin: const EdgeInsets.only(right: AppDimensions.spacingS),
+                      decoration: BoxDecoration(
+                        color: _hexToColor(selectedOption.colorHex!),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  Text(
+                    selectedOption.label,
+                    style: const TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: AppDimensions.fontM,
+                    ),
+                  ),
+                ],
+              ),
+            ] else
+              Text(
+                group.hintText ?? 'Select ${group.title.toLowerCase()}',
+                style: const TextStyle(
+                  color: AppColors.textHint,
+                  fontSize: AppDimensions.fontM,
+                ),
+              ),
+            const Icon(
+              Icons.keyboard_arrow_down,
+              color: AppColors.iconSecondary,
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Build checkbox list filter with optional icons
+  Widget _buildCheckboxListFilter(BuildContext context, FilterGroup group) {
+    return Column(
+      children: group.options.map((option) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingXS),
+          child: InkWell(
+            onTap: () {
+              context.read<TicketBloc>().add(ToggleFilterOption(
+                groupId: group.id,
+                optionId: option.id,
+              ));
+            },
+            borderRadius: BorderRadius.circular(AppDimensions.radiusS),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
+              child: Row(
+                children: [
+                  // Checkbox
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: Checkbox(
+                      value: option.isSelected,
+                      onChanged: (_) {
+                        context.read<TicketBloc>().add(ToggleFilterOption(
+                          groupId: group.id,
+                          optionId: option.id,
+                        ));
+                      },
+                      activeColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppDimensions.spacingM),
+                  // Icon avatar
+                  if (option.iconName != null || option.colorHex != null)
+                    CircleAvatar(
+                      radius: 18,
+                      backgroundColor: option.colorHex != null
+                          ? _hexToColor(option.colorHex!)
+                          : AppColors.primary,
+                      child: Icon(
+                        _getIconData(option.iconName),
+                        color: AppColors.textOnPrimary,
+                        size: 18,
+                      ),
+                    ),
+                  const SizedBox(width: AppDimensions.spacingM),
+                  // Label
+                  Text(
+                    option.label,
+                    style: const TextStyle(
+                      fontSize: AppDimensions.fontM,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  /// Build search with chips filter
+  Widget _buildSearchWithChipsFilter(BuildContext context, FilterGroup group) {
+    // Initialize search controller if needed
+    _searchControllers.putIfAbsent(group.id, () => TextEditingController());
+    _searchQueries.putIfAbsent(group.id, () => '');
+
+    final searchQuery = _searchQueries[group.id] ?? '';
+    final filteredOptions = searchQuery.isEmpty
+        ? group.options
+        : group.options.where(
+            (o) => o.label.toLowerCase().contains(searchQuery.toLowerCase()),
+          ).toList();
+
+    return Column(
+      children: [
+        // Search field using CommonSearchBar
+        CommonSearchBar(
+          controller: _searchControllers[group.id],
+          hintText: group.hintText ?? 'Search ${group.title.toLowerCase()}',
+          onChanged: (value) {
+            setState(() {
+              _searchQueries[group.id] = value;
+            });
+          },
+          onClear: () {
+            setState(() {
+              _searchQueries[group.id] = '';
+            });
+          },
+        ),
+        
+        const SizedBox(height: AppDimensions.spacingM),
+        // Chips
+        Wrap(
+          spacing: AppDimensions.spacingS,
+          runSpacing: AppDimensions.spacingS,
+          children: filteredOptions.map((option) {
+            return _FilterChip(
+              label: option.label,
+              isSelected: option.isSelected,
+              colorHex: option.colorHex,
+              onTap: () {
+                context.read<TicketBloc>().add(ToggleFilterOption(
+                  groupId: group.id,
+                  optionId: option.id,
+                ));
+              },
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  /// Convert hex color string to Color
+  Color _hexToColor(String hex) {
+    final hexCode = hex.replaceAll('#', '');
+    return Color(int.parse('FF$hexCode', radix: 16));
+  }
+
+  /// Get icon data from icon name string
+  IconData _getIconData(String? iconName) {
+    switch (iconName) {
+      case 'business':
+        return Icons.business;
+      case 'person':
+        return Icons.person;
+      case 'label':
+        return Icons.label;
+      case 'bug_report':
+        return Icons.bug_report;
+      case 'star':
+        return Icons.star;
+      default:
+        return Icons.circle;
+    }
+  }
 }
 
-/// Custom filter chip widget
+/// Custom filter chip widget with animation
 class _FilterChip extends StatelessWidget {
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
+  final String? colorHex;
 
   const _FilterChip({
     required this.label,
     required this.isSelected,
     required this.onTap,
+    this.colorHex,
   });
 
   @override
   Widget build(BuildContext context) {
+    final chipColor = colorHex != null
+        ? Color(int.parse('FF${colorHex!.replaceAll('#', '')}', radix: 16))
+        : AppColors.primary;
+
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.paddingL,
-          vertical: AppDimensions.paddingM,
+          horizontal: AppDimensions.paddingM,
+          vertical: AppDimensions.paddingS,
         ),
         decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary
-              : AppColors.surface,
+          color: isSelected ? chipColor : AppColors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.radiusCircle),
           border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.border,
+            color: isSelected ? chipColor : AppColors.border,
             width: 1.5,
           ),
         ),
@@ -240,11 +503,9 @@ class _FilterChip extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: AppDimensions.fontM,
+                fontSize: AppDimensions.fontS,
                 fontWeight: FontWeight.w500,
-                color: isSelected
-                    ? AppColors.textOnPrimary
-                    : AppColors.textPrimary,
+                color: isSelected ? AppColors.textOnPrimary : AppColors.textPrimary,
               ),
             ),
           ],

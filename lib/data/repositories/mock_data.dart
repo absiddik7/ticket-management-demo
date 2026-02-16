@@ -17,6 +17,7 @@ class MockData {
           assignee: 'John Smith',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=1',
           category: 'Bug',
+          brand: 'gains',
           createdAt: DateTime.now().subtract(const Duration(days: 2)),
           updatedAt: DateTime.now().subtract(const Duration(hours: 4)),
         ),
@@ -30,6 +31,7 @@ class MockData {
           assignee: 'Sarah Johnson',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=5',
           category: 'Feature Request',
+          brand: 'gainsolution',
           createdAt: DateTime.now().subtract(const Duration(days: 5)),
           updatedAt: DateTime.now().subtract(const Duration(days: 1)),
         ),
@@ -43,6 +45,7 @@ class MockData {
           assignee: 'Mike Chen',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=3',
           category: 'Bug',
+          brand: 'gainhq',
           createdAt: DateTime.now().subtract(const Duration(hours: 6)),
           updatedAt: DateTime.now().subtract(const Duration(hours: 2)),
         ),
@@ -56,6 +59,7 @@ class MockData {
           assignee: 'Emily Davis',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=9',
           category: 'Documentation',
+          brand: 'gains',
           createdAt: DateTime.now().subtract(const Duration(days: 10)),
           updatedAt: DateTime.now().subtract(const Duration(days: 3)),
         ),
@@ -69,6 +73,7 @@ class MockData {
           assignee: 'Alex Wilson',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=7',
           category: 'Bug',
+          brand: 'gainsolution',
           createdAt: DateTime.now().subtract(const Duration(days: 1)),
           updatedAt: DateTime.now().subtract(const Duration(hours: 8)),
         ),
@@ -82,6 +87,7 @@ class MockData {
           assignee: 'Lisa Brown',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=10',
           category: 'Feature Request',
+          brand: 'gainhq',
           createdAt: DateTime.now().subtract(const Duration(days: 15)),
           updatedAt: DateTime.now().subtract(const Duration(days: 7)),
         ),
@@ -95,6 +101,7 @@ class MockData {
           assignee: 'David Lee',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=4',
           category: 'Bug',
+          brand: 'gains',
           createdAt: DateTime.now().subtract(const Duration(days: 3)),
           updatedAt: DateTime.now().subtract(const Duration(hours: 12)),
         ),
@@ -108,6 +115,7 @@ class MockData {
           assignee: 'Jennifer Martinez',
           assigneeAvatar: 'https://i.pravatar.cc/150?img=11',
           category: 'Feature Request',
+          brand: 'gainsolution',
           createdAt: DateTime.now().subtract(const Duration(days: 8)),
           updatedAt: DateTime.now().subtract(const Duration(days: 4)),
         ),
@@ -242,38 +250,121 @@ class MockData {
       );
 
   /// Mock filter groups (dynamic filters from API)
+  /// Demonstrates different filter display types
   static List<FilterGroup> get filterGroups => [
+        // Brand filter - checkbox list with icons
         const FilterGroup(
-          id: 'status',
-          title: 'Status',
+          id: 'brand',
+          title: 'Brand',
+          displayType: FilterDisplayType.checkboxList,
           options: [
-            FilterOption(id: 'open', label: 'Open', value: 'open'),
             FilterOption(
-                id: 'in_progress', label: 'In Progress', value: 'in_progress'),
-            FilterOption(id: 'pending', label: 'Pending', value: 'pending'),
-            FilterOption(id: 'resolved', label: 'Resolved', value: 'resolved'),
-            FilterOption(id: 'closed', label: 'Closed', value: 'closed'),
+              id: 'gains',
+              label: 'Gains',
+              value: 'gains',
+              iconName: 'business',
+              colorHex: '6C63FF',
+            ),
+            FilterOption(
+              id: 'gainsolution',
+              label: 'GainSolution',
+              value: 'gainsolution',
+              iconName: 'business',
+              colorHex: '03DAC6',
+            ),
+            FilterOption(
+              id: 'gainhq',
+              label: 'GainHQ',
+              value: 'gainhq',
+              iconName: 'business',
+              colorHex: 'FFA726',
+            ),
           ],
         ),
+        // Priority filter - dropdown
         const FilterGroup(
           id: 'priority',
           title: 'Priority',
+          displayType: FilterDisplayType.dropdown,
+          allowMultiple: false,
+          hintText: 'Select priority',
           options: [
-            FilterOption(id: 'critical', label: 'Critical', value: 'critical'),
-            FilterOption(id: 'high', label: 'High', value: 'high'),
-            FilterOption(id: 'medium', label: 'Medium', value: 'medium'),
-            FilterOption(id: 'low', label: 'Low', value: 'low'),
+            FilterOption(
+              id: 'critical',
+              label: 'Critical',
+              value: 'critical',
+              colorHex: 'D32F2F',
+            ),
+            FilterOption(
+              id: 'high',
+              label: 'High',
+              value: 'high',
+              colorHex: 'EF5350',
+            ),
+            FilterOption(
+              id: 'medium',
+              label: 'Medium',
+              value: 'medium',
+              colorHex: 'FFA726',
+            ),
+            FilterOption(
+              id: 'low',
+              label: 'Low',
+              value: 'low',
+              colorHex: '66BB6A',
+            ),
           ],
         ),
+        // Tags filter - search with chips (includes status and category options)
         const FilterGroup(
-          id: 'category',
-          title: 'Category',
+          id: 'tags',
+          title: 'Tags',
+          displayType: FilterDisplayType.searchWithChips,
+          hintText: 'Search tags',
           options: [
+            // Status options
+            FilterOption(
+              id: 'open',
+              label: 'Open',
+              value: 'open',
+              colorHex: '2196F3',
+            ),
+            FilterOption(
+              id: 'in_progress',
+              label: 'In Progress',
+              value: 'in_progress',
+              colorHex: 'FFA726',
+            ),
+            FilterOption(
+              id: 'pending',
+              label: 'Pending',
+              value: 'pending',
+              colorHex: 'AB47BC',
+            ),
+            FilterOption(
+              id: 'resolved',
+              label: 'Resolved',
+              value: 'resolved',
+              colorHex: '66BB6A',
+            ),
+            FilterOption(
+              id: 'closed',
+              label: 'Closed',
+              value: 'closed',
+              colorHex: '9E9E9E',
+            ),
+            // Category options
             FilterOption(id: 'bug', label: 'Bug', value: 'bug'),
             FilterOption(
                 id: 'feature', label: 'Feature Request', value: 'feature'),
             FilterOption(id: 'docs', label: 'Documentation', value: 'docs'),
             FilterOption(id: 'support', label: 'Support', value: 'support'),
+            // Additional tags
+            FilterOption(id: 'tag_urgent', label: 'Urgent', value: 'urgent'),
+            FilterOption(id: 'tag_backend', label: 'Backend', value: 'backend'),
+            FilterOption(id: 'tag_frontend', label: 'Frontend', value: 'frontend'),
+            FilterOption(id: 'tag_mobile', label: 'Mobile', value: 'mobile'),
+            FilterOption(id: 'tag_api', label: 'API', value: 'api'),
           ],
         ),
       ];

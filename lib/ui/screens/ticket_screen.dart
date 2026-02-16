@@ -119,7 +119,7 @@ class _TicketScreenState extends State<TicketScreen> {
                   child: Row(
                     children: [
                       Text(
-                        '${state.tickets.length} tickets',
+                        '${state.displayTickets.length} tickets',
                         style: const TextStyle(
                           fontSize: AppDimensions.fontM,
                           color: AppColors.textSecondary,

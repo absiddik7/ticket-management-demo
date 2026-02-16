@@ -12,23 +12,16 @@ class TicketRepository {
   }
 
   /// Get filtered tickets based on selected filters
+  /// Supports dynamic filter groups by ID
   Future<List<Ticket>> getFilteredTickets({
-    List<String>? statuses,
     List<String>? priorities,
-    List<String>? categories,
+    List<String>? brands,
+    List<String>? tags,
   }) async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 500));
 
     List<Ticket> filteredTickets = MockData.tickets;
-
-    // Apply status filter
-    if (statuses != null && statuses.isNotEmpty) {
-      filteredTickets = filteredTickets.where((ticket) {
-        final statusValue = _getStatusValue(ticket.status);
-        return statuses.contains(statusValue);
-      }).toList();
-    }
 
     // Apply priority filter
     if (priorities != null && priorities.isNotEmpty) {
@@ -38,11 +31,37 @@ class TicketRepository {
       }).toList();
     }
 
-    // Apply category filter
-    if (categories != null && categories.isNotEmpty) {
+    // Apply brand filter
+    if (brands != null && brands.isNotEmpty) {
       filteredTickets = filteredTickets.where((ticket) {
-        final categoryValue = _getCategoryValue(ticket.category);
-        return categories.contains(categoryValue);
+        return brands.contains(ticket.brand);
+      }).toList();
+    }
+    
+    // Tags filter - includes status, category, and other tags
+    if (tags != null && tags.isNotEmpty) {
+      filteredTickets = filteredTickets.where((ticket) {
+        // Check status tags
+        for (final tag in tags) {
+          final statusValue = _getStatusValue(ticket.status);
+          if (tag == statusValue) return true;
+        }
+        
+        // Check category tags
+        for (final tag in tags) {
+          final categoryValue = _getCategoryValue(ticket.category);
+          if (tag == categoryValue) return true;
+        }
+        
+        // Check other tags
+        for (final tag in tags) {
+          if (tag == 'urgent' && ticket.priority == TicketPriority.critical) return true;
+          if (tag == 'backend' || tag == 'frontend' || tag == 'mobile' || tag == 'api') {
+            // For demo, randomly match some tickets
+            return ticket.id.hashCode % 3 == 0;
+          }
+        }
+        return false;
       }).toList();
     }
 

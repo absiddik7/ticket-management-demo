@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../data/models/models.dart';
 import '../../data/repositories/repositories.dart';
 import 'ticket_event.dart';
 import 'ticket_state.dart';
@@ -52,9 +53,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       // Re-apply existing filters if any
       if (state.hasActiveFilters) {
         final filteredTickets = await _ticketRepository.getFilteredTickets(
-          statuses: state.selectedFilters['status'],
           priorities: state.selectedFilters['priority'],
-          categories: state.selectedFilters['category'],
+          brands: state.selectedFilters['brand'],
+          tags: state.selectedFilters['tags'],
         );
         emit(state.copyWith(
           status: TicketStateStatus.loaded,
@@ -83,7 +84,22 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
   ) async {
     try {
       final filterGroups = await _ticketRepository.getFilterOptions();
-      emit(state.copyWith(filterGroups: filterGroups));
+      
+      // Preserve existing selections from selectedFilters
+      final updatedGroups = filterGroups.map((group) {
+        final selectedIds = state.selectedFilters[group.id] ?? [];
+        if (selectedIds.isEmpty) return group;
+        
+        return group.copyWith(
+          options: group.options.map((option) {
+            // Check if this option's value is in the selected filters
+            final isSelected = selectedIds.contains(option.value);
+            return option.copyWith(isSelected: isSelected);
+          }).toList(),
+        );
+      }).toList();
+      
+      emit(state.copyWith(filterGroups: updatedGroups));
     } catch (e) {
       // Silently fail for filter options
     }
@@ -94,17 +110,30 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     ToggleFilterOption event,
     Emitter<TicketState> emit,
   ) {
+    // Find the target group and option
+    final targetGroup = state.filterGroups.firstWhere(
+      (g) => g.id == event.groupId,
+      orElse: () => const FilterGroup(id: '', title: '', options: []),
+    );
+    final targetOption = targetGroup.options.firstWhere(
+      (o) => o.id == event.optionId,
+      orElse: () => const FilterOption(id: '', label: '', value: ''),
+    );
+    
+    if (targetOption.id.isEmpty) return;
+    
     // Create a mutable copy of selected filters
     final updatedFilters = Map<String, List<String>>.from(state.selectedFilters);
 
-    // Get or create the list for this group
+    // Get or create the list for this group (store VALUES, not IDs)
     final groupFilters = List<String>.from(updatedFilters[event.groupId] ?? []);
 
-    // Toggle the option
-    if (groupFilters.contains(event.optionId)) {
-      groupFilters.remove(event.optionId);
+    // Toggle the option using its value
+    final optionValue = targetOption.value;
+    if (groupFilters.contains(optionValue)) {
+      groupFilters.remove(optionValue);
     } else {
-      groupFilters.add(event.optionId);
+      groupFilters.add(optionValue);
     }
 
     // Update or remove the group
@@ -144,9 +173,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
 
     try {
       final filteredTickets = await _ticketRepository.getFilteredTickets(
-        statuses: event.selectedFilters['status'],
         priorities: event.selectedFilters['priority'],
-        categories: event.selectedFilters['category'],
+        brands: event.selectedFilters['brand'],
+        tags: event.selectedFilters['tags'],
       );
 
       emit(state.copyWith(

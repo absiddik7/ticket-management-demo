@@ -16,6 +16,7 @@ class Ticket extends Equatable {
   final String assignee;
   final String assigneeAvatar;
   final String category;
+  final String brand;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -28,6 +29,7 @@ class Ticket extends Equatable {
     required this.assignee,
     required this.assigneeAvatar,
     required this.category,
+    required this.brand,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -72,6 +74,7 @@ class Ticket extends Equatable {
     String? assignee,
     String? assigneeAvatar,
     String? category,
+    String? brand,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -84,6 +87,7 @@ class Ticket extends Equatable {
       assignee: assignee ?? this.assignee,
       assigneeAvatar: assigneeAvatar ?? this.assigneeAvatar,
       category: category ?? this.category,
+      brand: brand ?? this.brand,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -99,6 +103,7 @@ class Ticket extends Equatable {
         assignee,
         assigneeAvatar,
         category,
+        brand,
         createdAt,
         updatedAt,
       ];
