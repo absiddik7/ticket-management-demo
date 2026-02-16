@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/bloc.dart';
 import '../../core/constants/constants.dart';
-import '../../data/models/models.dart';
 
 /// Screen for filtering tickets with dynamic filter options
 class FilterScreen extends StatelessWidget {
@@ -11,7 +10,7 @@ class FilterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
     );
@@ -193,56 +192,6 @@ class FilterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterGroup(BuildContext context, FilterGroup group) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Group title
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              group.title,
-              style: const TextStyle(
-                fontSize: AppDimensions.fontL,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            Text(
-              '${group.selectedOptions.length} selected',
-              style: const TextStyle(
-                fontSize: AppDimensions.fontS,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: AppDimensions.spacingM),
-
-        // Filter options
-        Wrap(
-          spacing: AppDimensions.spacingS,
-          runSpacing: AppDimensions.spacingS,
-          children: group.options.map((option) {
-            return _FilterChip(
-              label: option.label,
-              isSelected: option.isSelected,
-              onTap: () {
-                context.read<TicketBloc>().add(
-                      ToggleFilterOption(
-                        groupId: group.id,
-                        optionId: option.id,
-                      ),
-                    );
-              },
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: AppDimensions.spacingXL),
-      ],
-    );
-  }
 }
 
 /// Custom filter chip widget

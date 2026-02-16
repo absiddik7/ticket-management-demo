@@ -26,7 +26,8 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         elevation: AppDimensions.appBarElevation,
         centerTitle: true,
-        backgroundColor: AppColors.surface,
+        backgroundColor: AppColors.background,
+        surfaceTintColor: Colors.transparent,
         foregroundColor: AppColors.textPrimary,
         titleTextStyle: TextStyle(
           color: AppColors.textPrimary,

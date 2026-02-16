@@ -23,15 +23,9 @@ class TicketCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.background,
             borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.cardShadow.withValues(alpha: 0.06),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            
           ),
           padding: const EdgeInsets.all(AppDimensions.paddingL),
           child: Column(

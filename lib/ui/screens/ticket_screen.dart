@@ -27,7 +27,7 @@ class _TicketScreenState extends State<TicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       appBar: _buildAppBar(),
       body: _buildBody(),
     );
@@ -111,7 +111,7 @@ class _TicketScreenState extends State<TicketScreen> {
                 // Top row with ticket count and filter button
                 Container(
                   width: double.infinity,
-                  color: AppColors.background,
+                  color: AppColors.surface,
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppDimensions.paddingL,
                     //vertical: AppDimensions.paddingM,

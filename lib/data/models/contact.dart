@@ -10,6 +10,7 @@ class Contact extends Equatable {
   final String role;
   final String avatarUrl;
   final bool isOnline;
+  final String location;
 
   const Contact({
     required this.id,
@@ -20,6 +21,7 @@ class Contact extends Equatable {
     required this.role,
     required this.avatarUrl,
     this.isOnline = false,
+    this.location = 'Not specified',
   });
 
   /// Get initials from name
@@ -41,6 +43,7 @@ class Contact extends Equatable {
     String? role,
     String? avatarUrl,
     bool? isOnline,
+    String? location,
   }) {
     return Contact(
       id: id ?? this.id,
@@ -51,6 +54,7 @@ class Contact extends Equatable {
       role: role ?? this.role,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       isOnline: isOnline ?? this.isOnline,
+      location: location ?? this.location,
     );
   }
 
@@ -64,5 +68,6 @@ class Contact extends Equatable {
         role,
         avatarUrl,
         isOnline,
+        location,
       ];
 }

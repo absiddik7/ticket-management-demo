@@ -124,6 +124,7 @@ class MockData {
           role: 'Senior Developer',
           avatarUrl: 'https://i.pravatar.cc/150?img=1',
           isOnline: true,
+          location: 'New York, NY',
         ),
         const Contact(
           id: 'CNT-002',
@@ -134,6 +135,7 @@ class MockData {
           role: 'UI/UX Designer',
           avatarUrl: 'https://i.pravatar.cc/150?img=5',
           isOnline: true,
+          location: 'San Francisco, CA',
         ),
         const Contact(
           id: 'CNT-003',
@@ -144,6 +146,7 @@ class MockData {
           role: 'Backend Developer',
           avatarUrl: 'https://i.pravatar.cc/150?img=3',
           isOnline: false,
+          location: 'Seattle, WA',
         ),
         const Contact(
           id: 'CNT-004',
@@ -154,6 +157,7 @@ class MockData {
           role: 'Product Manager',
           avatarUrl: 'https://i.pravatar.cc/150?img=9',
           isOnline: true,
+          location: 'Austin, TX',
         ),
         const Contact(
           id: 'CNT-005',
@@ -164,6 +168,7 @@ class MockData {
           role: 'Mobile Developer',
           avatarUrl: 'https://i.pravatar.cc/150?img=7',
           isOnline: false,
+          location: 'Denver, CO',
         ),
         const Contact(
           id: 'CNT-006',
@@ -174,6 +179,7 @@ class MockData {
           role: 'QA Engineer',
           avatarUrl: 'https://i.pravatar.cc/150?img=10',
           isOnline: true,
+          location: 'Chicago, IL',
         ),
         const Contact(
           id: 'CNT-007',
@@ -184,6 +190,7 @@ class MockData {
           role: 'DevOps Engineer',
           avatarUrl: 'https://i.pravatar.cc/150?img=4',
           isOnline: false,
+          location: 'Boston, MA',
         ),
         const Contact(
           id: 'CNT-008',
@@ -194,6 +201,7 @@ class MockData {
           role: 'Support Specialist',
           avatarUrl: 'https://i.pravatar.cc/150?img=11',
           isOnline: true,
+          location: 'Miami, FL',
         ),
         const Contact(
           id: 'CNT-009',
@@ -204,6 +212,7 @@ class MockData {
           role: 'Engineering Manager',
           avatarUrl: 'https://i.pravatar.cc/150?img=12',
           isOnline: false,
+          location: 'Portland, OR',
         ),
         const Contact(
           id: 'CNT-010',
@@ -214,6 +223,7 @@ class MockData {
           role: 'HR Manager',
           avatarUrl: 'https://i.pravatar.cc/150?img=13',
           isOnline: true,
+          location: 'Atlanta, GA',
         ),
       ];
 

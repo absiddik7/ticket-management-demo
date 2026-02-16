@@ -22,7 +22,7 @@ class CommonSearchBar extends StatelessWidget {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(AppDimensions.radiusCircle),
       ),
       child: TextField(

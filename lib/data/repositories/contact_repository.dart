@@ -25,7 +25,8 @@ class ContactRepository {
       return contact.name.toLowerCase().contains(lowerQuery) ||
           contact.email.toLowerCase().contains(lowerQuery) ||
           contact.department.toLowerCase().contains(lowerQuery) ||
-          contact.role.toLowerCase().contains(lowerQuery);
+          contact.role.toLowerCase().contains(lowerQuery) ||
+          contact.location.toLowerCase().contains(lowerQuery);
     }).toList();
   }
 
