@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import '../../core/constants/constants.dart';
 import '../../data/models/models.dart';
 
-/// Widget displaying a single contact item in a list
 class ContactCard extends StatelessWidget {
   final Contact contact;
   final VoidCallback? onTap;
 
-  const ContactCard({
-    super.key,
-    required this.contact,
-    this.onTap,
-  });
+  const ContactCard({super.key, required this.contact, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,46 +21,73 @@ class ContactCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(AppDimensions.paddingL),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Avatar
-              _buildAvatar(),
-              const SizedBox(width: AppDimensions.spacingL),
-
-              // Contact info (name + three lines)
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Avatar
+                  _buildAvatar(),
+                  const SizedBox(width: AppDimensions.spacingL),
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment:  MainAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Text(
-                            contact.name,
-                            style: const TextStyle(
-                              fontSize: AppDimensions.fontL,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary,
-                            ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize:  MainAxisSize.min,
+                            children: [
+                              Text(
+                                contact.name,
+                                style: const TextStyle(
+                                  fontSize: AppDimensions.fontL,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         IconButton(
                           onPressed: () {},
-                          icon: const Icon(Icons.more_vert, color: AppColors.iconSecondary),
+                          icon: const Icon(
+                            Icons.more_vert,
+                            color: AppColors.iconSecondary,
+                          ),
                         ),
                       ],
                     ),
+                  ),
+                ],
+              ),
+              // Contact info (name + three lines)
+              Container(
+               // color: Colors.red,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     const SizedBox(height: AppDimensions.spacingM),
+              
                     Row(
                       children: [
-                        const Icon(Icons.email_outlined, size: AppDimensions.iconS, color: AppColors.iconSecondary),
+                        const Icon(
+                          Icons.email_outlined,
+                          size: AppDimensions.iconS,
+                          color: AppColors.iconSecondary,
+                        ),
                         const SizedBox(width: AppDimensions.spacingS),
                         Expanded(
                           child: Text(
                             contact.email,
-                            style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textHint),
+                            style: const TextStyle(
+                              fontSize: AppDimensions.fontM,
+                              color: AppColors.textHint,
+                            ),
                           ),
                         ),
                       ],
@@ -73,12 +95,19 @@ class ContactCard extends StatelessWidget {
                     const SizedBox(height: AppDimensions.spacingXS),
                     Row(
                       children: [
-                        const Icon(Icons.phone_outlined, size: AppDimensions.iconS, color: AppColors.iconSecondary),
+                        const Icon(
+                          Icons.phone_outlined,
+                          size: AppDimensions.iconS,
+                          color: AppColors.iconSecondary,
+                        ),
                         const SizedBox(width: AppDimensions.spacingS),
                         Expanded(
                           child: Text(
                             contact.phone,
-                            style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textHint),
+                            style: const TextStyle(
+                              fontSize: AppDimensions.fontM,
+                              color: AppColors.textHint,
+                            ),
                           ),
                         ),
                       ],
@@ -86,12 +115,19 @@ class ContactCard extends StatelessWidget {
                     const SizedBox(height: AppDimensions.spacingXS),
                     Row(
                       children: [
-                        const Icon(Icons.location_on_outlined, size: AppDimensions.iconS, color: AppColors.iconSecondary),
+                        const Icon(
+                          Icons.location_on_outlined,
+                          size: AppDimensions.iconS,
+                          color: AppColors.iconSecondary,
+                        ),
                         const SizedBox(width: AppDimensions.spacingS),
                         Expanded(
                           child: Text(
                             contact.department,
-                            style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textHint),
+                            style: const TextStyle(
+                              fontSize: AppDimensions.fontM,
+                              color: AppColors.textHint,
+                            ),
                           ),
                         ),
                       ],
@@ -133,10 +169,7 @@ class ContactCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.success,
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: AppColors.surface,
-                  width: 2,
-                ),
+                border: Border.all(color: AppColors.surface, width: 2),
               ),
             ),
           ),

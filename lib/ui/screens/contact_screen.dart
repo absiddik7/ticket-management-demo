@@ -61,9 +61,18 @@ class _ContactScreenState extends State<ContactScreen> {
             // search area
             Padding(
               padding: const EdgeInsets.fromLTRB(AppDimensions.paddingL, AppDimensions.paddingL, AppDimensions.paddingL, 0),
-              child: _buildSearchBar(),
+              child: CommonSearchBar(
+                controller: _searchController,
+                hintText: AppStrings.searchContacts,
+                onChanged: (query) {
+                  context.read<ContactBloc>().add(SearchContacts(query: query));
+                },
+                onClear: () {
+                  context.read<ContactBloc>().add(const ClearSearch());
+                },
+              ),
             ),
-            const SizedBox(height: AppDimensions.spacingM),
+            const SizedBox(height: AppDimensions.spacingL),
 
             // contacts count
             Padding(
@@ -106,89 +115,9 @@ class _ContactScreenState extends State<ContactScreen> {
     );
   }
 
-  Widget _buildSearchBar() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.cardShadow.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: TextField(
-        controller: _searchController,
-        onChanged: (query) {
-          context.read<ContactBloc>().add(SearchContacts(query: query));
-        },
-        decoration: InputDecoration(
-          hintText: AppStrings.searchContacts,
-          hintStyle: const TextStyle(
-            color: AppColors.textHint,
-            fontSize: AppDimensions.fontM,
-          ),
-          prefixIcon: const Icon(
-            Icons.search,
-            color: AppColors.iconSecondary,
-          ),
-          suffixIcon: BlocBuilder<ContactBloc, ContactState>(
-            builder: (context, state) {
-              if (state.searchQuery.isNotEmpty) {
-                return IconButton(
-                  onPressed: () {
-                    _searchController.clear();
-                    context.read<ContactBloc>().add(const ClearSearch());
-                  },
-                  icon: const Icon(
-                    Icons.clear,
-                    color: AppColors.iconSecondary,
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppDimensions.paddingL,
-            vertical: AppDimensions.paddingM,
-          ),
-        ),
-      ),
-    );
-  }
+  
 
-  Widget _buildEmptyState(bool isSearching) {
-    return EmptyState(
-      icon: isSearching ? Icons.search_off : Icons.people_outline,
-      title: isSearching ? AppStrings.noContactsFound : AppStrings.emptyContacts,
-      message: isSearching ? AppStrings.noContactsMessage : null,
-    );
-  }
 
-  Widget _buildContactList(ContactState state) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        context.read<ContactBloc>().add(const LoadContacts());
-      },
-      child: ListView.builder(
-        padding: const EdgeInsets.only(bottom: AppDimensions.paddingXXL),
-        itemCount: state.displayContacts.length,
-        itemBuilder: (context, index) {
-          final contact = state.displayContacts[index];
-          return ContactCard(
-            contact: contact,
-            onTap: () => _showContactDetails(contact),
-          );
-        },
-      ),
-    );
-  }
 
   void _showContactDetails(contact) {
     showModalBottomSheet(
@@ -307,34 +236,7 @@ class _ContactDetailSheet extends StatelessWidget {
                     icon: Icons.business_outlined,
                     label: AppStrings.contactDepartment,
                     value: contact.department,
-                  ),
-                  const SizedBox(height: AppDimensions.spacingXL),
-                  // Action buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.email_outlined),
-                          label: const Text('Email'),
-                          style: OutlinedButton.styleFrom(
-                            minimumSize: const Size(0, AppDimensions.buttonHeightM),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: AppDimensions.spacingM),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.phone_outlined),
-                          label: const Text('Call'),
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(0, AppDimensions.buttonHeightM),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  ),                 
                 ],
               ),
             ),

@@ -7,22 +7,16 @@ class TicketCard extends StatelessWidget {
   final Ticket ticket;
   final VoidCallback? onTap;
 
-  const TicketCard({
-    super.key,
-    required this.ticket,
-    this.onTap,
-  });
+  const TicketCard({super.key, required this.ticket, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingL,
-        vertical: AppDimensions.spacingM,
+        vertical: AppDimensions.spacingS,
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 0,
       child: InkWell(
         onTap: onTap,
@@ -43,14 +37,8 @@ class TicketCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Status pill and priority
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildStatusPill(),
-                  _buildPriorityChip(),
-                ],
-              ),
+              // Top tag (e.g., "New" for recent tickets or the ticket category)
+              _buildTopPill(),
               const SizedBox(height: AppDimensions.spacingS),
 
               // Ticket ID
@@ -109,7 +97,10 @@ class TicketCard extends StatelessWidget {
                 spacing: AppDimensions.spacingS,
                 runSpacing: AppDimensions.spacingS,
                 children: [
-                  _buildSmallChip(AppStrings.priorityLow, AppColors.priorityLow),
+                  _buildSmallChip(
+                    ticket.priorityDisplayText,
+                    _getPriorityColor(),
+                  ),
                   _buildSmallChip(ticket.statusDisplayText, _getStatusColor()),
                 ],
               ),
@@ -120,29 +111,39 @@ class TicketCard extends StatelessWidget {
     );
   }
 
-  Widget _buildPriorityChip() {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.paddingM,
-        vertical: AppDimensions.paddingXS,
-      ),
-      decoration: BoxDecoration(
-        color: _getPriorityColor().withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        ticket.priorityDisplayText,
-        style: TextStyle(
-          fontSize: AppDimensions.fontXS,
-          fontWeight: FontWeight.w600,
-          color: _getPriorityColor(),
-        ),
-      ),
-    );
-  }
+  Widget _buildTopPill() {
+    final isNew = DateTime.now().difference(ticket.createdAt).inHours < 48;
+    String label;
+    Color color;
 
-  Widget _buildStatusPill() {
-    final color = _getStatusColor();
+    if (isNew) {
+      label = 'New';
+      color = AppColors.info;
+    } else {
+      final cat = ticket.category.toLowerCase();
+      switch (cat) {
+        case 'bug':
+          label = 'Bug';
+          color = AppColors.error;
+          break;
+        case 'feature request':
+          label = 'Feature';
+          color = AppColors.primary;
+          break;
+        case 'documentation':
+          label = 'Docs';
+          color = AppColors.info;
+          break;
+        case 'support':
+          label = 'Support';
+          color = AppColors.warning;
+          break;
+        default:
+          label = ticket.category;
+          color = AppColors.primary;
+      }
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
@@ -153,7 +154,7 @@ class TicketCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(
-        ticket.statusDisplayText,
+        label,
         style: TextStyle(
           fontSize: AppDimensions.fontS,
           fontWeight: FontWeight.w700,
@@ -226,8 +227,18 @@ class TicketCard extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year} ${_formatTime(date)}';
   }

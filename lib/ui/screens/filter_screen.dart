@@ -14,7 +14,6 @@ class FilterScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
-      bottomNavigationBar: _buildBottomBar(context),
     );
   }
 
@@ -242,67 +241,6 @@ class FilterScreen extends StatelessWidget {
         ),
         const SizedBox(height: AppDimensions.spacingXL),
       ],
-    );
-  }
-
-  Widget _buildBottomBar(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppDimensions.paddingL),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.cardShadow.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        child: BlocBuilder<TicketBloc, TicketState>(
-          builder: (context, state) {
-            return ElevatedButton(
-              onPressed: () {
-                // Build selected filters map
-                final selectedFilters = <String, List<String>>{};
-                for (final group in state.filterGroups) {
-                  final selectedIds = group.options
-                      .where((o) => o.isSelected)
-                      .map((o) => o.value)
-                      .toList();
-                  if (selectedIds.isNotEmpty) {
-                    selectedFilters[group.id] = selectedIds;
-                  }
-                }
-
-                // Apply filters and go back
-                context.read<TicketBloc>().add(
-                      ApplyFilters(selectedFilters: selectedFilters),
-                    );
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                minimumSize:
-                    const Size(double.infinity, AppDimensions.buttonHeightL),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-                ),
-              ),
-              child: Text(
-                state.hasActiveFilters
-                    ? '${AppStrings.filterApply} (${state.activeFilterCount})'
-                    : AppStrings.filterApply,
-                style: const TextStyle(
-                  fontSize: AppDimensions.fontL,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textOnPrimary,
-                ),
-              ),
-            );
-          },
-        ),
-      ),
     );
   }
 }

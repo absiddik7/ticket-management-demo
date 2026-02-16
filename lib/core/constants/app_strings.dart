@@ -50,7 +50,7 @@ class AppStrings {
   // Contact Screen
   static const String contactsTitle = 'Contacts';
   static const String contactsSubtitle = 'Find your team members';
-  static const String searchContacts = 'Search contacts...';
+  static const String searchContacts = 'Search contacts';
   static const String noContactsFound = 'No contacts found';
   static const String noContactsMessage = 'Try a different search term';
   static const String contactEmail = 'Email';
