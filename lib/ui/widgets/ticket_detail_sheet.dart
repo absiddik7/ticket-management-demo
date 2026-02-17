@@ -10,10 +10,13 @@ class TicketDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(AppDimensions.radiusXL),
         ),
       ),
@@ -28,7 +31,7 @@ class TicketDetailSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.border,
+                color: isDark ? const Color(0xFF3D3D3D) : AppColors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -45,9 +48,9 @@ class TicketDetailSheet extends StatelessWidget {
                   children: [
                     Text(
                       ticket.id,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: AppDimensions.fontM,
-                        color: AppColors.textSecondary,
+                        color: theme.textTheme.bodySmall?.color,
                       ),
                     ),
                     Container(
@@ -76,28 +79,28 @@ class TicketDetailSheet extends StatelessWidget {
                 // Title
                 Text(
                   ticket.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontXXL,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: theme.textTheme.bodyLarge?.color,
                   ),
                 ),
                 const SizedBox(height: AppDimensions.spacingL),
                 // Description
-                const Text(
+                Text(
                   AppStrings.ticketDescription,
                   style: TextStyle(
                     fontSize: AppDimensions.fontM,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
+                    color: theme.textTheme.bodySmall?.color,
                   ),
                 ),
                 const SizedBox(height: AppDimensions.spacingS),
                 Text(
                   ticket.description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontM,
-                    color: AppColors.textPrimary,
+                    color: theme.textTheme.bodyLarge?.color,
                     height: 1.5,
                   ),
                 ),
@@ -106,11 +109,12 @@ class TicketDetailSheet extends StatelessWidget {
                 const SizedBox(height: AppDimensions.spacingL),
                 // Details grid
                 _buildDetailRow(
+                  context,
                   AppStrings.ticketPriority,
                   ticket.priorityDisplayText,
                 ),
-                _buildDetailRow(AppStrings.ticketAssignee, ticket.assignee),
-                _buildDetailRow('Category', ticket.category),
+                _buildDetailRow(context, AppStrings.ticketAssignee, ticket.assignee),
+                _buildDetailRow(context, 'Category', ticket.category),
                 const SizedBox(height: AppDimensions.spacingL),
               ],
             ),
@@ -120,7 +124,9 @@ class TicketDetailSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(String label, String value) {
+  Widget _buildDetailRow(BuildContext context, String label, String value) {
+    final theme = Theme.of(context);
+    
     return Padding(
       padding: const EdgeInsets.only(bottom: AppDimensions.paddingM),
       child: Row(
@@ -130,19 +136,19 @@ class TicketDetailSheet extends StatelessWidget {
             width: 100,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppDimensions.fontM,
-                color: AppColors.textSecondary,
+                color: theme.textTheme.bodySmall?.color,
               ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppDimensions.fontM,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textPrimary,
+                color: theme.textTheme.bodyLarge?.color,
               ),
             ),
           ),

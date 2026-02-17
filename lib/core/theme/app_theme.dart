@@ -6,6 +6,17 @@ import '../constants/constants.dart';
 class AppTheme {
   AppTheme._();
 
+  // Dark theme specific colors
+  static const Color _darkBackground = Color(0xFF121212);
+  static const Color _darkSurface = Color(0xFF1E1E1E);
+  static const Color _darkCardBackground = Color(0xFF2C2C2C);
+  static const Color _darkTextPrimary = Color(0xFFE1E1E1);
+  static const Color _darkTextSecondary = Color(0xFFB0B0B0);
+  static const Color _darkTextHint = Color(0xFF757575);
+  static const Color _darkBorder = Color(0xFF3D3D3D);
+  static const Color _darkDivider = Color(0xFF3D3D3D);
+  static const Color _darkNavInactive = Color(0xFF757575);
+
   /// Light theme configuration
   static ThemeData get lightTheme {
     return ThemeData(
@@ -210,6 +221,215 @@ class AppTheme {
         labelSmall: TextStyle(
           fontSize: AppDimensions.fontXS,
           color: AppColors.textSecondary,
+        ),
+      ),
+    );
+  }
+
+  /// Dark theme configuration
+  static ThemeData get darkTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: _darkBackground,
+      colorScheme: ColorScheme.dark(
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
+        surface: _darkSurface,
+        error: AppColors.error,
+        onPrimary: AppColors.textOnPrimary,
+        onSecondary: AppColors.textOnPrimary,
+        onSurface: _darkTextPrimary,
+        onError: AppColors.textOnPrimary,
+      ),
+      appBarTheme: AppBarTheme(
+        elevation: AppDimensions.appBarElevation,
+        centerTitle: true,
+        backgroundColor: _darkSurface,
+        surfaceTintColor: Colors.transparent,
+        foregroundColor: _darkTextPrimary,
+        titleTextStyle: TextStyle(
+          color: _darkTextPrimary,
+          fontSize: AppDimensions.fontXL,
+          fontWeight: FontWeight.w600,
+        ),
+        iconTheme: IconThemeData(
+          color: _darkTextPrimary,
+        ),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: _darkSurface,
+        selectedItemColor: AppColors.navActive,
+        unselectedItemColor: _darkNavInactive,
+        type: BottomNavigationBarType.fixed,
+        elevation: 8,
+        selectedLabelStyle: const TextStyle(
+          fontSize: AppDimensions.fontS,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: AppDimensions.fontS,
+        ),
+      ),
+      cardTheme: CardThemeData(
+        color: _darkCardBackground,
+        elevation: AppDimensions.cardElevation,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
+        ),
+        margin: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.paddingL,
+          vertical: AppDimensions.paddingS,
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.textOnPrimary,
+          elevation: 0,
+          minimumSize: const Size(double.infinity, AppDimensions.buttonHeightL),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          ),
+          textStyle: const TextStyle(
+            fontSize: AppDimensions.fontL,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          side: const BorderSide(color: AppColors.primary),
+          minimumSize: const Size(double.infinity, AppDimensions.buttonHeightL),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppDimensions.radiusM),
+          ),
+          textStyle: const TextStyle(
+            fontSize: AppDimensions.fontL,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          textStyle: const TextStyle(
+            fontSize: AppDimensions.fontM,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: _darkSurface,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.paddingL,
+          vertical: AppDimensions.paddingM,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.inputRadius),
+          borderSide: BorderSide(color: _darkBorder),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.inputRadius),
+          borderSide: BorderSide(color: _darkBorder),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.inputRadius),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.inputRadius),
+          borderSide: const BorderSide(color: AppColors.error),
+        ),
+        hintStyle: TextStyle(
+          color: _darkTextHint,
+          fontSize: AppDimensions.fontM,
+        ),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: _darkSurface,
+        selectedColor: AppColors.primary.withValues(alpha: 0.25),
+        labelStyle: TextStyle(
+          fontSize: AppDimensions.fontM,
+          color: _darkTextPrimary,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.paddingM,
+          vertical: AppDimensions.paddingS,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppDimensions.radiusS),
+        ),
+      ),
+      dividerTheme: DividerThemeData(
+        color: _darkDivider,
+        thickness: AppDimensions.dividerThickness,
+        space: 0,
+      ),
+      textTheme: TextTheme(
+        displayLarge: TextStyle(
+          fontSize: AppDimensions.fontDisplay,
+          fontWeight: FontWeight.bold,
+          color: _darkTextPrimary,
+        ),
+        headlineLarge: TextStyle(
+          fontSize: AppDimensions.fontXXXL,
+          fontWeight: FontWeight.bold,
+          color: _darkTextPrimary,
+        ),
+        headlineMedium: TextStyle(
+          fontSize: AppDimensions.fontXXL,
+          fontWeight: FontWeight.w600,
+          color: _darkTextPrimary,
+        ),
+        headlineSmall: TextStyle(
+          fontSize: AppDimensions.fontXL,
+          fontWeight: FontWeight.w600,
+          color: _darkTextPrimary,
+        ),
+        titleLarge: TextStyle(
+          fontSize: AppDimensions.fontL,
+          fontWeight: FontWeight.w600,
+          color: _darkTextPrimary,
+        ),
+        titleMedium: TextStyle(
+          fontSize: AppDimensions.fontM,
+          fontWeight: FontWeight.w600,
+          color: _darkTextPrimary,
+        ),
+        titleSmall: TextStyle(
+          fontSize: AppDimensions.fontS,
+          fontWeight: FontWeight.w600,
+          color: _darkTextPrimary,
+        ),
+        bodyLarge: TextStyle(
+          fontSize: AppDimensions.fontL,
+          color: _darkTextPrimary,
+        ),
+        bodyMedium: TextStyle(
+          fontSize: AppDimensions.fontM,
+          color: _darkTextPrimary,
+        ),
+        bodySmall: TextStyle(
+          fontSize: AppDimensions.fontS,
+          color: _darkTextSecondary,
+        ),
+        labelLarge: TextStyle(
+          fontSize: AppDimensions.fontM,
+          fontWeight: FontWeight.w600,
+          color: _darkTextPrimary,
+        ),
+        labelMedium: TextStyle(
+          fontSize: AppDimensions.fontS,
+          fontWeight: FontWeight.w500,
+          color: _darkTextSecondary,
+        ),
+        labelSmall: TextStyle(
+          fontSize: AppDimensions.fontXS,
+          color: _darkTextSecondary,
         ),
       ),
     );

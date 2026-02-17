@@ -30,7 +30,7 @@ class _ContactScreenState extends State<ContactScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: _buildAppBar(),
       body: _buildBody(),
     );
@@ -38,14 +38,14 @@ class _ContactScreenState extends State<ContactScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
-      title: const Text(
+      title: Text(
         AppStrings.contactsTitle,
         style: TextStyle(
-          fontSize: 32,
+          fontSize: 24,
           fontWeight: FontWeight.w700,
-          color: AppColors.textPrimary,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
         ),
       ),
       centerTitle: false,
@@ -86,9 +86,9 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
               child: Text(
                 '${state.contacts.length} Contacts',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppDimensions.fontM,
-                  color: AppColors.textSecondary,
+                  color: Theme.of(context).textTheme.bodySmall?.color,
                   fontWeight: FontWeight.w600,
                 ),
               ),

@@ -19,25 +19,29 @@ class CommonSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: AppColors.background,
+        color: isDark ? const Color(0xFF2C2C2C) : AppColors.background,
         borderRadius: BorderRadius.circular(AppDimensions.radiusCircle),
       ),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
+        style: TextStyle(color: theme.textTheme.bodyLarge?.color),
         decoration: InputDecoration(
           hintText: hintText,
           fillColor: Colors.transparent,
-          hintStyle: const TextStyle(
-            color: AppColors.textHint,
+          hintStyle: TextStyle(
+            color: isDark ? const Color(0xFF757575) : AppColors.textHint,
             fontSize: AppDimensions.fontM,
           ),
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.search,
-            color: AppColors.iconSecondary,
+            color: isDark ? const Color(0xFF757575) : AppColors.iconSecondary,
           ),
           suffixIcon: controller != null && controller!.text.isNotEmpty
               ? IconButton(
@@ -45,9 +49,9 @@ class CommonSearchBar extends StatelessWidget {
                     controller?.clear();
                     onClear?.call();
                   },
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.clear,
-                    color: AppColors.iconSecondary,
+                    color: isDark ? const Color(0xFF757575) : AppColors.iconSecondary,
                   ),
                 )
               : null,

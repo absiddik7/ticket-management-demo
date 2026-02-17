@@ -21,6 +21,9 @@ class ContactCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingL,
@@ -33,7 +36,7 @@ class ContactCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: isDark ? const Color(0xFF2C2C2C) : AppColors.background,
             borderRadius: BorderRadius.circular(16),
           ),
           padding: const EdgeInsets.all(AppDimensions.paddingL),
@@ -60,19 +63,19 @@ class ContactCard extends StatelessWidget {
                               children: [
                                 Text(
                                   contact.name,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.textPrimary,
+                                    color: theme.textTheme.bodyLarge?.color,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
                                   contact.department,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: AppDimensions.fontS,
-                                    color: AppColors.textSecondary,
+                                    color: theme.textTheme.bodySmall?.color,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -140,15 +143,16 @@ class ContactCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: AppDimensions.spacingM),
-              const Divider(color: AppColors.divider, thickness: 1),
+              Divider(color: isDark ? const Color(0xFF3D3D3D) : AppColors.divider, thickness: 1),
               const SizedBox(height: AppDimensions.spacingM),
               // Contact info
-              _buildInfoRow(icon: Icons.email_outlined, value: contact.email),
+              _buildInfoRow(context, icon: Icons.email_outlined, value: contact.email),
               const SizedBox(height: AppDimensions.spacingS),
-              _buildInfoRow(icon: Icons.phone_outlined, value: contact.phone),
+              _buildInfoRow(context, icon: Icons.phone_outlined, value: contact.phone),
               const SizedBox(height: AppDimensions.spacingS),
               // location
               _buildInfoRow(
+                context,
                 icon: Icons.location_on_outlined,
                 value: contact.location,
               ),
@@ -186,17 +190,19 @@ class ContactCard extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow({required IconData icon, required String value}) {
+  Widget _buildInfoRow(BuildContext context, {required IconData icon, required String value}) {
+    final theme = Theme.of(context);
+    
     return Row(
       children: [
-        Icon(icon, size: AppDimensions.iconS, color: AppColors.textSecondary),
+        Icon(icon, size: AppDimensions.iconS, color: theme.textTheme.bodySmall?.color),
         const SizedBox(width: AppDimensions.spacingS),
         Expanded(
           child: Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppDimensions.fontS,
-              color: AppColors.textHint,
+              color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

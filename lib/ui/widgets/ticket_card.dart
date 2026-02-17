@@ -11,6 +11,9 @@ class TicketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingL,
@@ -23,7 +26,7 @@ class TicketCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.background,
+            color: isDark ? const Color(0xFF2C2C2C) : AppColors.background,
             borderRadius: BorderRadius.circular(16),
             
           ),
@@ -32,15 +35,15 @@ class TicketCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Top tag (e.g., "New" for recent tickets or the ticket category)
-              _buildTopPill(),
+              _buildTopPill(context),
               const SizedBox(height: AppDimensions.spacingS),
 
               // Ticket ID
               Text(
                 '#${ticket.id}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppDimensions.fontS,
-                  color: AppColors.textHint,
+                  color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.6),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -49,10 +52,10 @@ class TicketCard extends StatelessWidget {
               // Title
               Text(
                 ticket.title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: theme.textTheme.bodyLarge?.color,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -64,26 +67,26 @@ class TicketCard extends StatelessWidget {
                 children: [
                   Text(
                     ticket.assignee,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontS,
-                      color: AppColors.textSecondary,
+                      color: theme.textTheme.bodySmall?.color,
                     ),
                   ),
                   const SizedBox(width: AppDimensions.spacingS),
-                  const Text('•', style: TextStyle(color: AppColors.textHint)),
+                  Text('•', style: TextStyle(color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.6))),
                   const SizedBox(width: AppDimensions.spacingS),
                   Text(
                     _formatDate(ticket.createdAt),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontS,
-                      color: AppColors.textHint,
+                      color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.6),
                     ),
                   ),
                 ],
               ),
 
               const SizedBox(height: AppDimensions.spacingM),
-              const Divider(color: AppColors.divider, thickness: 1),
+              Divider(color: isDark ? const Color(0xFF3D3D3D) : AppColors.divider, thickness: 1),
               const SizedBox(height: AppDimensions.spacingM),
 
               // Chips
@@ -92,10 +95,11 @@ class TicketCard extends StatelessWidget {
                 runSpacing: AppDimensions.spacingS,
                 children: [
                   _buildSmallChip(
+                    context,
                     ticket.priorityDisplayText,
                     _getPriorityColor(),
                   ),
-                  _buildSmallChip(ticket.statusDisplayText, _getStatusColor()),
+                  _buildSmallChip(context, ticket.statusDisplayText, _getStatusColor()),
                 ],
               ),
             ],
@@ -105,7 +109,7 @@ class TicketCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTopPill() {
+  Widget _buildTopPill(BuildContext context) {
     final isNew = DateTime.now().difference(ticket.createdAt).inHours < 48;
     String label;
     Color color;
@@ -158,16 +162,19 @@ class TicketCard extends StatelessWidget {
     );
   }
 
-  Widget _buildSmallChip(String label, Color color) {
+  Widget _buildSmallChip(BuildContext context, String label, Color color) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingM,
         vertical: AppDimensions.paddingXS,
       ),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: isDark ? const Color(0xFF1E1E1E) : AppColors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: isDark ? const Color(0xFF3D3D3D) : AppColors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -180,9 +187,9 @@ class TicketCard extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppDimensions.fontS,
-              color: AppColors.textPrimary,
+              color: theme.textTheme.bodyLarge?.color,
               fontWeight: FontWeight.w500,
             ),
           ),

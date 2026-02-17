@@ -9,11 +9,14 @@ class ContactDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       height: MediaQuery.of(context).size.height * 0.55,
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(AppDimensions.radiusXL),
         ),
       ),
@@ -26,7 +29,7 @@ class ContactDetailSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.border,
+                color: isDark ? const Color(0xFF3D3D3D) : AppColors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -42,7 +45,7 @@ class ContactDetailSheet extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: AppDimensions.avatarXL / 2,
-                        backgroundColor: AppColors.slideGrey,
+                        backgroundColor: isDark ? const Color(0xFF3D3D3D) : AppColors.slideGrey,
                         backgroundImage: NetworkImage(contact.avatarUrl),
                         onBackgroundImageError: (_, __) {},
                       ),
@@ -57,7 +60,7 @@ class ContactDetailSheet extends StatelessWidget {
                               color: AppColors.success,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: AppColors.surface,
+                                color: theme.colorScheme.surface,
                                 width: 3,
                               ),
                             ),
@@ -69,39 +72,43 @@ class ContactDetailSheet extends StatelessWidget {
                   // Name
                   Text(
                     contact.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontXXL,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: theme.textTheme.bodyLarge?.color,
                     ),
                   ),
                   const SizedBox(height: AppDimensions.spacingXS),
                   // Role
                   Text(
                     contact.role,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontM,
-                      color: AppColors.textSecondary,
+                      color: theme.textTheme.bodySmall?.color,
                     ),
                   ),
                   const SizedBox(height: AppDimensions.spacingXL),
                   // Contact info
                   _buildInfoTile(
+                    context,
                     icon: Icons.email_outlined,
                     label: AppStrings.contactEmail,
                     value: contact.email,
                   ),
                   _buildInfoTile(
+                    context,
                     icon: Icons.phone_outlined,
                     label: AppStrings.contactPhone,
                     value: contact.phone,
                   ),
                   _buildInfoTile(
+                    context,
                     icon: Icons.business_outlined,
                     label: AppStrings.contactDepartment,
                     value: contact.department,
                   ),
                   _buildInfoTile(
+                    context,
                     icon: Icons.location_on_outlined,
                     label: 'Location',
                     value: contact.location,
@@ -115,11 +122,14 @@ class ContactDetailSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoTile({
+  Widget _buildInfoTile(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required String value,
   }) {
+    final theme = Theme.of(context);
+    
     return Padding(
       padding: const EdgeInsets.only(bottom: AppDimensions.paddingM),
       child: Row(
@@ -143,17 +153,17 @@ class ContactDetailSheet extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontS,
-                    color: AppColors.textSecondary,
+                    color: theme.textTheme.bodySmall?.color,
                   ),
                 ),
                 Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: AppDimensions.fontM,
                     fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary,
+                    color: theme.textTheme.bodyLarge?.color,
                   ),
                 ),
               ],

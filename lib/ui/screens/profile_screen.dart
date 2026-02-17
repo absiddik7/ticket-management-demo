@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: _buildAppBar(),
       body: _buildBody(),
     );
@@ -31,14 +31,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
-      title: const Text(
+      title: Text(
         AppStrings.profileTitle,
         style: TextStyle(
-          fontSize: 32,
+          fontSize: 24,
           fontWeight: FontWeight.w700,
-          color: AppColors.textPrimary,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
         ),
       ),
       centerTitle: false,
@@ -128,6 +128,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildProfileCard(profile) {
+    final theme = Theme.of(context);
+    
     return Container(
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.08),
@@ -139,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           CircleAvatar(
             radius: 32,
             backgroundImage: NetworkImage(profile.avatarUrl),
-            backgroundColor: AppColors.surface,
+            backgroundColor: theme.colorScheme.surface,
             onBackgroundImageError: (_, __) {},
           ),
           const SizedBox(width: AppDimensions.spacingL),
@@ -149,19 +151,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Text(
                   profile.name,
-                  style: const TextStyle(fontSize: AppDimensions.fontXXL, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                  style: TextStyle(fontSize: AppDimensions.fontXXL, fontWeight: FontWeight.w700, color: theme.textTheme.bodyLarge?.color),
                 ),
                 const SizedBox(height: AppDimensions.spacingXS),
                 Text(
                   profile.role,
-                  style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textSecondary),
+                  style: TextStyle(fontSize: AppDimensions.fontM, color: theme.textTheme.bodySmall?.color),
                 ),
               ],
             ),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.edit_outlined, color: AppColors.iconSecondary),
+            icon: Icon(Icons.edit_outlined, color: theme.brightness == Brightness.dark ? const Color(0xFF757575) : AppColors.iconSecondary),
           ),
         ],
       ),
@@ -169,6 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildBasicInfo(profile) {
+    final theme = Theme.of(context);
     final parts = profile.name.split(' ');
     final first = parts.isNotEmpty ? parts.first : '';
     final last = parts.length > 1 ? parts.sublist(1).join(' ') : '';
@@ -179,9 +182,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(fontSize: AppDimensions.fontS, color: AppColors.textSecondary)),
+            Text(label, style: TextStyle(fontSize: AppDimensions.fontS, color: theme.textTheme.bodySmall?.color)),
             const SizedBox(height: AppDimensions.spacingXS),
-            Text(value, style: const TextStyle(fontSize: AppDimensions.fontL, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+            Text(value, style: TextStyle(fontSize: AppDimensions.fontL, fontWeight: FontWeight.w700, color: theme.textTheme.bodyLarge?.color)),
           ],
         ),
       );
@@ -190,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Basic info', style: TextStyle(fontSize: AppDimensions.fontL, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+        Text('Basic info', style: TextStyle(fontSize: AppDimensions.fontL, fontWeight: FontWeight.w600, color: theme.textTheme.bodyLarge?.color)),
         const SizedBox(height: AppDimensions.spacingM),
         infoRow('First name', first),
         infoRow('Last name', last),
@@ -200,12 +203,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildRolesSection() {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final roles = MockData.assignedRoles;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Assigned roles (${roles.length})', style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textSecondary)),
+        Text('Assigned roles (${roles.length})', style: TextStyle(fontSize: AppDimensions.fontM, color: theme.textTheme.bodySmall?.color)),
         const SizedBox(height: AppDimensions.spacingM),
         SizedBox(
           height: 190,
@@ -218,11 +223,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return Container(
                 width: 280,
                 decoration: BoxDecoration(
-                  color: AppColors.background,
+                  color: isDark ? const Color(0xFF2C2C2C) : AppColors.background,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.cardShadow.withValues(alpha: 0.04),
+                      color: theme.shadowColor.withValues(alpha: 0.04),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
@@ -234,16 +239,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       c['title']!,
-                      style: const TextStyle(fontSize: AppDimensions.fontXXL, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                      style: TextStyle(fontSize: AppDimensions.fontXXL, fontWeight: FontWeight.w700, color: theme.textTheme.bodyLarge?.color),
                     ),
                     const SizedBox(height: AppDimensions.spacingM),
-                    const Divider(color: AppColors.divider, thickness: 1),
+                    Divider(color: isDark ? const Color(0xFF3D3D3D) : AppColors.divider, thickness: 1),
                     const SizedBox(height: AppDimensions.spacingS),
-                    const Text('Group', style: TextStyle(fontSize: AppDimensions.fontS, color: AppColors.textSecondary)),
+                    Text('Group', style: TextStyle(fontSize: AppDimensions.fontS, color: theme.textTheme.bodySmall?.color)),
                     const SizedBox(height: AppDimensions.spacingXS),
-                    Text(c['group']!, style: const TextStyle(fontSize: AppDimensions.fontM, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+                    Text(c['group']!, style: TextStyle(fontSize: AppDimensions.fontM, fontWeight: FontWeight.w600, color: theme.textTheme.bodyLarge?.color)),
                     const Spacer(),
-                    const Text('Manager', style: TextStyle(fontSize: AppDimensions.fontS, color: AppColors.textSecondary)),
+                    Text('Manager', style: TextStyle(fontSize: AppDimensions.fontS, color: theme.textTheme.bodySmall?.color)),
                     const SizedBox(height: AppDimensions.spacingXS),
                     Row(
                       children: [
@@ -257,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: CircleAvatar(
                             radius: 16,
                             backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=${index + 1}'),
-                            backgroundColor: AppColors.surface,
+                            backgroundColor: theme.colorScheme.surface,
                             onBackgroundImageError: (_, __) {},
                           ),
                         ),
@@ -265,7 +270,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Expanded(
                           child: Text(
                             c['manager']!,
-                            style: const TextStyle(fontSize: AppDimensions.fontM, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+                            style: TextStyle(fontSize: AppDimensions.fontM, fontWeight: FontWeight.w600, color: theme.textTheme.bodyLarge?.color),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

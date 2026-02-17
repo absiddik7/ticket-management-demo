@@ -27,27 +27,41 @@ class _TicketScreenState extends State<TicketScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return Scaffold(
-      backgroundColor: AppColors.surface,
-      appBar: _buildAppBar(),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      appBar: _buildAppBar(isDarkMode),
       body: _buildBody(),
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
+  PreferredSizeWidget _buildAppBar(bool isDarkMode) {
     return AppBar(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
-      title: const Text(
+      title: Text(
         'Gain Solutions',
         style: TextStyle(
-          fontSize: 28,
+          fontSize: 24,
           fontWeight: FontWeight.w700,
-          color: AppColors.textPrimary,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
         ),
       ),
       centerTitle: false,
       actions: [
+        // Theme toggle icon
+        IconButton(
+          onPressed: () {
+            context.read<ThemeBloc>().add(const ToggleTheme());
+          },
+          icon: Icon(
+            isDarkMode ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+            size: 28,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
+          ),
+          tooltip: isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+        ),
         // Notification bell with badge
         Padding(
           padding: const EdgeInsets.only(right: AppDimensions.paddingL),
@@ -55,10 +69,10 @@ class _TicketScreenState extends State<TicketScreen> {
             children: [
               IconButton(
                 onPressed: () {},
-                icon: const Icon(
+                icon: Icon(
                   Icons.notifications_outlined,
                   size: 32,
-                  color: AppColors.textPrimary,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
               Positioned(
@@ -69,7 +83,7 @@ class _TicketScreenState extends State<TicketScreen> {
                   decoration: BoxDecoration(
                     color: AppColors.error,
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.surface, width: 2),
+                    border: Border.all(color: Theme.of(context).colorScheme.surface, width: 2),
                   ),
                   child: const Text(
                     '3',
@@ -112,7 +126,7 @@ class _TicketScreenState extends State<TicketScreen> {
                 // Top row with ticket count and filter button
                 Container(
                   width: double.infinity,
-                  color: AppColors.surface,
+                  color: Theme.of(context).colorScheme.surface,
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppDimensions.paddingL,
                     //vertical: AppDimensions.paddingM,
@@ -121,9 +135,9 @@ class _TicketScreenState extends State<TicketScreen> {
                     children: [
                       Text(
                         '${state.displayTickets.length} tickets',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: AppDimensions.fontM,
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).textTheme.bodySmall?.color,
                         ),
                       ),
                       const Spacer(),
@@ -135,7 +149,7 @@ class _TicketScreenState extends State<TicketScreen> {
                               'assets/filter_icon.svg',
                               width: 22,
                               height: 22,
-                              color: AppColors.textPrimary,
+                                color: Theme.of(context).textTheme.bodyLarge?.color ?? AppColors.textPrimary,
                             ),
                           );
                         },

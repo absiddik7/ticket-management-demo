@@ -12,6 +12,8 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -23,8 +25,8 @@ class LoadingIndicator extends StatelessWidget {
             const SizedBox(height: AppDimensions.spacingL),
             Text(
               message!,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
+              style: TextStyle(
+                color: theme.textTheme.bodySmall?.color,
                 fontSize: AppDimensions.fontM,
               ),
             ),
@@ -52,6 +54,8 @@ class EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppDimensions.paddingXXL),
@@ -61,15 +65,17 @@ class EmptyState extends StatelessWidget {
             Icon(
               icon,
               size: AppDimensions.iconXXXL,
-              color: AppColors.iconSecondary,
+              color: theme.brightness == Brightness.dark
+                  ? const Color(0xFF757575)
+                  : AppColors.iconSecondary,
             ),
             const SizedBox(height: AppDimensions.spacingL),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppDimensions.fontXL,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: theme.textTheme.bodyLarge?.color,
               ),
               textAlign: TextAlign.center,
             ),
@@ -77,9 +83,9 @@ class EmptyState extends StatelessWidget {
               const SizedBox(height: AppDimensions.spacingS),
               Text(
                 message!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppDimensions.fontM,
-                  color: AppColors.textSecondary,
+                  color: theme.textTheme.bodySmall?.color,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -108,6 +114,8 @@ class ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppDimensions.paddingXXL),
@@ -120,20 +128,20 @@ class ErrorState extends StatelessWidget {
               color: AppColors.error,
             ),
             const SizedBox(height: AppDimensions.spacingL),
-            const Text(
+            Text(
               AppStrings.error,
               style: TextStyle(
                 fontSize: AppDimensions.fontXL,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
+                color: theme.textTheme.bodyLarge?.color,
               ),
             ),
             const SizedBox(height: AppDimensions.spacingS),
             Text(
               message,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: AppDimensions.fontM,
-                color: AppColors.textSecondary,
+                color: theme.textTheme.bodySmall?.color,
               ),
               textAlign: TextAlign.center,
             ),

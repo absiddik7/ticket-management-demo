@@ -50,10 +50,10 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: AppColors.cardShadow.withValues(alpha: 0.1),
+            color: Theme.of(context).shadowColor.withValues(alpha: 0.1),
             offset: const Offset(0, -1),
           ),
         ],
@@ -113,35 +113,39 @@ class _MainScreenState extends State<MainScreen> {
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: isSelected ? AppDimensions.spacingL : 8,
-                vertical: 2,
               ),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.blue.withOpacity(0.12) : AppColors.surface,
+                color: isSelected ? AppColors.primary.withValues(alpha: 0.12) : Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(24),
               ),
               child: isSelected
                   ? Container(
                       width: 36,
                       height: 36,
-                      decoration: BoxDecoration(
-                       // color: AppColors.primary,
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         activeIcon,
-                        color: Colors.blue,
+                        color: AppColors.primary,
                       ),
                     )
                   : Icon(
                       icon,
-                      color: AppColors.navInactive,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF757575)
+                          : AppColors.navInactive,
                     ),
             ),
             const SizedBox(height: AppDimensions.spacingXS),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? const Color.fromARGB(255, 92, 92, 92) : AppColors.navInactive,
+                color: isSelected
+                    ? Theme.of(context).textTheme.bodyMedium?.color
+                    : Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF757575)
+                        : AppColors.navInactive,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 fontSize: AppDimensions.fontS,
               ),

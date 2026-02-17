@@ -40,7 +40,7 @@ class _FilterScreenState extends State<FilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: _buildAppBar(context),
       body: _buildBody(context),
     );
@@ -48,18 +48,18 @@ class _FilterScreenState extends State<FilterScreen> {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
       leading: IconButton(
         onPressed: () => Navigator.of(context).pop(),
-        icon: const Icon(Icons.close, color: AppColors.textPrimary),
+        icon: Icon(Icons.close, color: Theme.of(context).textTheme.bodyLarge?.color),
       ),
-      title: const Text(
+      title: Text(
         AppStrings.filterTitle,
         style: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: AppColors.textPrimary,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
         ),
       ),
       centerTitle: false,
@@ -151,10 +151,10 @@ class _FilterScreenState extends State<FilterScreen> {
         // Title
         Text(
           group.title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: AppDimensions.fontL,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         const SizedBox(height: AppDimensions.spacingM),
@@ -201,6 +201,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
   /// Build dropdown filter
   Widget _buildDropdownFilter(BuildContext context, FilterGroup group) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final selectedOption = group.options.where((o) => o.isSelected).firstOrNull;
     
     return Container(
@@ -211,8 +213,8 @@ class _FilterScreenState extends State<FilterScreen> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-        border: Border.all(color: AppColors.border),
-        color: AppColors.background,
+        border: Border.all(color: isDark ? const Color(0xFF3D3D3D) : AppColors.border),
+        color: isDark ? const Color(0xFF2C2C2C) : AppColors.background,
       ),
       child: PopupMenuButton<String>(
         offset: const Offset(0, 50),
@@ -280,8 +282,8 @@ class _FilterScreenState extends State<FilterScreen> {
                     ),
                   Text(
                     selectedOption.label,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: theme.textTheme.bodyLarge?.color,
                       fontSize: AppDimensions.fontM,
                     ),
                   ),
@@ -290,14 +292,14 @@ class _FilterScreenState extends State<FilterScreen> {
             ] else
               Text(
                 group.hintText ?? 'Select ${group.title.toLowerCase()}',
-                style: const TextStyle(
-                  color: AppColors.textHint,
+                style: TextStyle(
+                  color: isDark ? const Color(0xFF757575) : AppColors.textHint,
                   fontSize: AppDimensions.fontM,
                 ),
               ),
-            const Icon(
+            Icon(
               Icons.keyboard_arrow_down,
-              color: AppColors.iconSecondary,
+              color: isDark ? const Color(0xFF757575) : AppColors.iconSecondary,
               size: 20,
             ),
           ],
@@ -308,6 +310,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
   /// Build checkbox list filter with optional icons
   Widget _buildCheckboxListFilter(BuildContext context, FilterGroup group) {
+    final theme = Theme.of(context);
+    
     return Column(
       children: group.options.map((option) {
         return Padding(
@@ -360,9 +364,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   // Label
                   Text(
                     option.label,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppDimensions.fontM,
-                      color: AppColors.textPrimary,
+                      color: theme.textTheme.bodyLarge?.color,
                     ),
                   ),
                 ],
@@ -469,6 +473,8 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final chipColor = colorHex != null
         ? Color(int.parse('FF${colorHex!.replaceAll('#', '')}', radix: 16))
         : AppColors.primary;
@@ -482,10 +488,10 @@ class _FilterChip extends StatelessWidget {
           vertical: AppDimensions.paddingS,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? chipColor : AppColors.surface,
+          color: isSelected ? chipColor : (isDark ? const Color(0xFF1E1E1E) : AppColors.surface),
           borderRadius: BorderRadius.circular(AppDimensions.radiusCircle),
           border: Border.all(
-            color: isSelected ? chipColor : AppColors.border,
+            color: isSelected ? chipColor : (isDark ? const Color(0xFF3D3D3D) : AppColors.border),
             width: 1.5,
           ),
         ),
@@ -505,7 +511,7 @@ class _FilterChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: AppDimensions.fontS,
                 fontWeight: FontWeight.w500,
-                color: isSelected ? AppColors.textOnPrimary : AppColors.textPrimary,
+                color: isSelected ? AppColors.textOnPrimary : theme.textTheme.bodyLarge?.color,
               ),
             ),
           ],
