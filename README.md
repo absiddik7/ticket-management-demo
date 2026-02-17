@@ -44,7 +44,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 
 ## Features
 
-### 🎟️ Ticket Management
+### Ticket Management
 | Feature | Description |
 |---------|-------------|
 | **Ticket List** | View all tickets with priority and status indicators |
@@ -53,7 +53,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 | **Ticket Details** | Detailed view with complete ticket information |
 | **Visual Indicators** | Color-coded priority and status badges |
 
-### 🔍 Advanced Filter System
+### Advanced Filter System
 | Filter Type | Description |
 |-------------|-------------|
 | **Chips** | Quick-select toggles for common filters |
@@ -61,7 +61,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 | **Checkbox List** | Multi-select with brand icons |
 | **Search + Chips** | Searchable tags with chip display |
 
-### 👥 Contact Management
+### Contact Management
 | Feature | Description |
 |---------|-------------|
 | **Contact Directory** | Complete team member listing |
@@ -69,7 +69,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 | **Contact Details** | Modal sheet with complete profile |
 | **Online Status** | Visual indicator for availability |
 
-### 👤 User Profile
+### User Profile
 | Feature | Description |
 |---------|-------------|
 | **Profile Overview** | User info with avatar and stats |
@@ -77,7 +77,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 | **Statistics** | Tickets created/resolved metrics |
 | **Edit Capability** | Profile modification support |
 
-### 🎨 Theme Support
+### Theme Support
 | Feature | Description |
 |---------|-------------|
 | **Light Mode** | Clean, professional light theme |
@@ -110,7 +110,6 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 | ![Screenshot_2026-02-17-19-12-51-042_com example ticket_management](https://github.com/user-attachments/assets/e527494f-0827-4114-8dc1-cf2ea151289b) | ![Screenshot_2026-02-17-19-12-54-825_com example ticket_management](https://github.com/user-attachments/assets/30adbc9a-1f1a-4676-8c04-630756c10b23) | ![Screenshot_2026-02-17-19-13-36-657_com example ticket_management](https://github.com/user-attachments/assets/11af2290-e8c1-4aec-adaf-e370c2bbc095) | ![Screenshot_2026-02-17-19-13-28-684_com example ticket_management](https://github.com/user-attachments/assets/55ab972c-07b7-40be-a9c5-ffc77e2761f5) |
 
 </div>
----
 
 ## Demo Video
 
@@ -216,13 +215,13 @@ Immutable models with value equality for efficient state comparison and widget r
 
 | Category | Technology | Version | Purpose |
 |:--------:|:----------:|:-------:|:--------|
-| 📱 Framework | Flutter | 3.9+ | Cross-platform UI framework |
-| 💻 Language | Dart | 3.9+ | Programming language |
-| 🔄 State Management | flutter_bloc | 8.1.6 | BLoC pattern implementation |
-| ⚖️ Equality | equatable | 2.0.5 | Value equality for models |
-| 💾 Storage | shared_preferences | 2.2.2 | Theme persistence |
-| 🎨 Icons | flutter_svg | 1.1.6 | Custom SVG icons |
-| 📊 Design | Material 3 | - | Modern design system |
+| Framework | Flutter | 3.9+ | Cross-platform UI framework |
+| Language | Dart | 3.9+ | Programming language |
+| State Management | flutter_bloc | 8.1.6 | BLoC pattern implementation |
+| Equality | equatable | 2.0.5 | Value equality for models |
+| Storage | shared_preferences | 2.2.2 | Theme persistence |
+| Icons | flutter_svg | 1.1.6 | Custom SVG icons |
+| Design | Material 3 | - | Modern design system |
 
 </div>
 
