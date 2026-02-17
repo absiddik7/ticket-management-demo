@@ -12,20 +12,20 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Screenshots](#-screenshots)
-- [Demo Video](#-demo-video)
-- [Architecture](#-architecture)
-- [Implementation Approach](#-implementation-approach)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [State Management](#-state-management-bloc-pattern)
-- [Data Models](#-data-models)
-- [UI Components](#-ui-components)
-- [Getting Started](#-getting-started)
-- [Design Decisions](#-design-decisions)
-- [Future Enhancements](#-future-enhancements)
+- [Overview](#overview)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Demo Video](#demo-video)
+- [Architecture](#architecture)
+- [Implementation Approach](#implementation-approach)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [State Management](#state-management-bloc-pattern)
+- [Data Models](#data-models)
+- [UI Components](#ui-components)
+- [Getting Started](#getting-started)
+- [Design Decisions](#design-decisions)
+- [Future Enhancements](#future-enhancements)
 
 ---
 
@@ -298,7 +298,6 @@ ticket_management/
 ├── 📁 assets/
 │   ├── filter_icon.svg                   # Custom filter icon
 │   ├── 📁 json/                          # Mock data files
-│   └── 📁 screenshots/                   # App screenshots
 │
 ├── 📄 pubspec.yaml                       # Dependencies
 ├── 📄 analysis_options.yaml              # Lint rules
@@ -337,16 +336,16 @@ ticket_management/
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│                    TICKET BLOC                            │
+│                    TICKET BLOC                           │
 ├──────────────────────────────────────────────────────────┤
 │                                                          │
-│  LoadTickets ──────────▶ initial → loading → loaded     │
+│  LoadTickets ──────────▶ initial → loading → loaded      │
 │                                                          │
-│  ToggleFilterOption ───▶ Update filterGroups & filters  │
+│  ToggleFilterOption ───▶ Update filterGroups & filters   │
 │                                                          │
-│  ApplyFilters ─────────▶ Filter tickets → isFiltered    │
+│  ApplyFilters ─────────▶ Filter tickets → isFiltered     │
 │                                                          │
-│  ClearFilters ─────────▶ Reset to original tickets      │
+│  ClearFilters ─────────▶ Reset to original tickets       │
 │                                                          │
 └──────────────────────────────────────────────────────────┘
 ```
