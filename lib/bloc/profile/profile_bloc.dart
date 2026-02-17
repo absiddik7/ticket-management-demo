@@ -22,10 +22,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(state.copyWith(status: ProfileStateStatus.loading));
 
     try {
-      final profile = await _profileRepository.getUserProfile();
+      final results = await Future.wait([
+        _profileRepository.getUserProfile(),
+        _profileRepository.getAssignedRoles(),
+      ]);
+      
       emit(state.copyWith(
         status: ProfileStateStatus.loaded,
-        profile: profile,
+        profile: results[0] as dynamic,
+        assignedRoles: results[1] as List<Map<String, String>>,
       ));
     } catch (e) {
       emit(state.copyWith(
@@ -41,10 +46,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     Emitter<ProfileState> emit,
   ) async {
     try {
-      final profile = await _profileRepository.getUserProfile();
+      final results = await Future.wait([
+        _profileRepository.getUserProfile(),
+        _profileRepository.getAssignedRoles(),
+      ]);
+      
       emit(state.copyWith(
         status: ProfileStateStatus.loaded,
-        profile: profile,
+        profile: results[0] as dynamic,
+        assignedRoles: results[1] as List<Map<String, String>>,
       ));
     } catch (e) {
       emit(state.copyWith(

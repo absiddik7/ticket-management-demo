@@ -2,13 +2,13 @@ import '../models/models.dart';
 import 'mock_data.dart';
 
 /// Repository for ticket-related operations
-/// Simulates API calls using mock data
+/// Simulates API calls using mock data loaded from JSON files
 class TicketRepository {
   /// Get all tickets (simulates API call)
   Future<List<Ticket>> getTickets() async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 800));
-    return MockData.tickets;
+    return await MockData.loadTickets();
   }
 
   /// Get filtered tickets based on selected filters
@@ -21,7 +21,7 @@ class TicketRepository {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 500));
 
-    List<Ticket> filteredTickets = MockData.tickets;
+    List<Ticket> filteredTickets = await MockData.loadTickets();
 
     // Apply priority filter
     if (priorities != null && priorities.isNotEmpty) {
@@ -72,7 +72,8 @@ class TicketRepository {
   Future<Ticket?> getTicketById(String id) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      return MockData.tickets.firstWhere((ticket) => ticket.id == id);
+      final tickets = await MockData.loadTickets();
+      return tickets.firstWhere((ticket) => ticket.id == id);
     } catch (_) {
       return null;
     }
@@ -81,7 +82,7 @@ class TicketRepository {
   /// Get filter options (simulates dynamic filters from API)
   Future<List<FilterGroup>> getFilterOptions() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    return MockData.filterGroups;
+    return await MockData.loadFilterGroups();
   }
 
   String _getStatusValue(TicketStatus status) {

@@ -24,6 +24,36 @@ class Contact extends Equatable {
     this.location = 'Not specified',
   });
 
+  /// Create a Contact from JSON map
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      email: json['email'] as String,
+      phone: json['phone'] as String,
+      department: json['department'] as String,
+      role: json['role'] as String,
+      avatarUrl: json['avatar_url'] as String,
+      isOnline: json['is_online'] as bool? ?? false,
+      location: json['location'] as String? ?? 'Not specified',
+    );
+  }
+
+  /// Convert Contact to JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'department': department,
+      'role': role,
+      'avatar_url': avatarUrl,
+      'is_online': isOnline,
+      'location': location,
+    };
+  }
+
   /// Get initials from name
   String get initials {
     final parts = name.split(' ');

@@ -1,0 +1,148 @@
+[
+  {
+    "id": "brand",
+    "title": "Brand",
+    "display_type": "checkboxList",
+    "allow_multiple": true,
+    "options": [
+      {
+        "id": "gains",
+        "label": "Gains",
+        "value": "gains",
+        "icon_name": "business",
+        "color_hex": "6C63FF"
+      },
+      {
+        "id": "gainsolution",
+        "label": "GainSolution",
+        "value": "gainsolution",
+        "icon_name": "business",
+        "color_hex": "03DAC6"
+      },
+      {
+        "id": "gainhq",
+        "label": "GainHQ",
+        "value": "gainhq",
+        "icon_name": "business",
+        "color_hex": "FFA726"
+      }
+    ]
+  },
+  {
+    "id": "priority",
+    "title": "Priority",
+    "display_type": "dropdown",
+    "allow_multiple": false,
+    "hint_text": "Select priority",
+    "options": [
+      {
+        "id": "critical",
+        "label": "Critical",
+        "value": "critical",
+        "color_hex": "D32F2F"
+      },
+      {
+        "id": "high",
+        "label": "High",
+        "value": "high",
+        "color_hex": "EF5350"
+      },
+      {
+        "id": "medium",
+        "label": "Medium",
+        "value": "medium",
+        "color_hex": "FFA726"
+      },
+      {
+        "id": "low",
+        "label": "Low",
+        "value": "low",
+        "color_hex": "66BB6A"
+      }
+    ]
+  },
+  {
+    "id": "tags",
+    "title": "Tags",
+    "display_type": "searchWithChips",
+    "allow_multiple": true,
+    "hint_text": "Search tags",
+    "options": [
+      {
+        "id": "open",
+        "label": "Open",
+        "value": "open",
+        "color_hex": "2196F3"
+      },
+      {
+        "id": "in_progress",
+        "label": "In Progress",
+        "value": "in_progress",
+        "color_hex": "FFA726"
+      },
+      {
+        "id": "pending",
+        "label": "Pending",
+        "value": "pending",
+        "color_hex": "AB47BC"
+      },
+      {
+        "id": "resolved",
+        "label": "Resolved",
+        "value": "resolved",
+        "color_hex": "66BB6A"
+      },
+      {
+        "id": "closed",
+        "label": "Closed",
+        "value": "closed",
+        "color_hex": "9E9E9E"
+      },
+      {
+        "id": "bug",
+        "label": "Bug",
+        "value": "bug"
+      },
+      {
+        "id": "feature",
+        "label": "Feature Request",
+        "value": "feature"
+      },
+      {
+        "id": "docs",
+        "label": "Documentation",
+        "value": "docs"
+      },
+      {
+        "id": "support",
+        "label": "Support",
+        "value": "support"
+      },
+      {
+        "id": "tag_urgent",
+        "label": "Urgent",
+        "value": "urgent"
+      },
+      {
+        "id": "tag_backend",
+        "label": "Backend",
+        "value": "backend"
+      },
+      {
+        "id": "tag_frontend",
+        "label": "Frontend",
+        "value": "frontend"
+      },
+      {
+        "id": "tag_mobile",
+        "label": "Mobile",
+        "value": "mobile"
+      },
+      {
+        "id": "tag_api",
+        "label": "API",
+        "value": "api"
+      }
+    ]
+  }
+]

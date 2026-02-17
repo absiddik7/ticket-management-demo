@@ -34,6 +34,73 @@ class Ticket extends Equatable {
     required this.updatedAt,
   });
 
+  /// Create a Ticket from JSON map
+  factory Ticket.fromJson(Map<String, dynamic> json) {
+    return Ticket(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      status: _parseStatus(json['status'] as String),
+      priority: _parsePriority(json['priority'] as String),
+      assignee: json['assignee'] as String,
+      assigneeAvatar: json['assignee_avatar'] as String,
+      category: json['category'] as String,
+      brand: json['brand'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+    );
+  }
+
+  /// Convert Ticket to JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'status': status.name,
+      'priority': priority.name,
+      'assignee': assignee,
+      'assignee_avatar': assigneeAvatar,
+      'category': category,
+      'brand': brand,
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+    };
+  }
+
+  static TicketStatus _parseStatus(String status) {
+    switch (status) {
+      case 'open':
+        return TicketStatus.open;
+      case 'inProgress':
+      case 'in_progress':
+        return TicketStatus.inProgress;
+      case 'resolved':
+        return TicketStatus.resolved;
+      case 'closed':
+        return TicketStatus.closed;
+      case 'pending':
+        return TicketStatus.pending;
+      default:
+        return TicketStatus.open;
+    }
+  }
+
+  static TicketPriority _parsePriority(String priority) {
+    switch (priority) {
+      case 'low':
+        return TicketPriority.low;
+      case 'medium':
+        return TicketPriority.medium;
+      case 'high':
+        return TicketPriority.high;
+      case 'critical':
+        return TicketPriority.critical;
+      default:
+        return TicketPriority.medium;
+    }
+  }
+
   /// Get display string for status
   String get statusDisplayText {
     switch (status) {

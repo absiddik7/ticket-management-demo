@@ -26,6 +26,38 @@ class UserProfile extends Equatable {
     required this.ticketsResolved,
   });
 
+  /// Create a UserProfile from JSON map
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      email: json['email'] as String,
+      phone: json['phone'] as String,
+      department: json['department'] as String,
+      role: json['role'] as String,
+      avatarUrl: json['avatar_url'] as String,
+      joinedAt: DateTime.parse(json['joined_at'] as String),
+      ticketsCreated: json['tickets_created'] as int,
+      ticketsResolved: json['tickets_resolved'] as int,
+    );
+  }
+
+  /// Convert UserProfile to JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'department': department,
+      'role': role,
+      'avatar_url': avatarUrl,
+      'joined_at': joinedAt.toIso8601String(),
+      'tickets_created': ticketsCreated,
+      'tickets_resolved': ticketsResolved,
+    };
+  }
+
   /// Get initials from name
   String get initials {
     final parts = name.split(' ');

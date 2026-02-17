@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/bloc.dart';
 import '../../core/constants/constants.dart';
-import '../../data/repositories/mock_data.dart';
 import '../widgets/widgets.dart';
 
 /// Screen displaying user profile information
@@ -63,13 +62,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             if (state.profile == null) {
               return const ErrorState(message: 'Profile not found');
             }
-            return _buildProfileContent(state.profile!);
+            return _buildProfileContent(state.profile!, state.assignedRoles);
         }
       },
     );
   }
 
-  Widget _buildProfileContent(profile) {
+  Widget _buildProfileContent(profile, List<Map<String, String>> assignedRoles) {
     return RefreshIndicator(
       onRefresh: () async {
         context.read<ProfileBloc>().add(const RefreshProfile());
@@ -97,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             // Assigned roles (horizontal)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
-              child: _buildRolesSection(),
+              child: _buildRolesSection(assignedRoles),
             ),
             const SizedBox(height: AppDimensions.spacingL),
 
@@ -202,10 +201,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildRolesSection() {
+  Widget _buildRolesSection(List<Map<String, String>> roles) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final roles = MockData.assignedRoles;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

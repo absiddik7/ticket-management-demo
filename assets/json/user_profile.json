@@ -1,0 +1,12 @@
+{
+  "id": "USR-001",
+  "name": "Alex Thompson",
+  "email": "alex.thompson@gainsolutions.com",
+  "phone": "+1 (555) 111-2222",
+  "department": "Engineering",
+  "role": "Support",
+  "avatar_url": "https://i.pravatar.cc/150?img=8",
+  "joined_at": "2023-03-15T00:00:00.000Z",
+  "tickets_created": 24,
+  "tickets_resolved": 18
+}

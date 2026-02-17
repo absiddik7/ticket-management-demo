@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Manager",
+    "group": "Codecyaneon support",
+    "manager": "Jonaus Kahnwald"
+  },
+  {
+    "title": "Agent",
+    "group": "Laravel Ops",
+    "manager": "Sarah Johnson"
+  },
+  {
+    "title": "Reviewer",
+    "group": "QA Team",
+    "manager": "Michael Reyes"
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "CNT-001",
+    "name": "John Smith",
+    "email": "john.smith@gainsolutions.com",
+    "phone": "+1 (555) 123-4567",
+    "department": "Engineering",
+    "role": "Senior Developer",
+    "avatar_url": "https://i.pravatar.cc/150?img=1",
+    "is_online": true,
+    "location": "New York, NY"
+  },
+  {
+    "id": "CNT-002",
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@gainsolutions.com",
+    "phone": "+1 (555) 234-5678",
+    "department": "Design",
+    "role": "UI/UX Designer",
+    "avatar_url": "https://i.pravatar.cc/150?img=5",
+    "is_online": true,
+    "location": "San Francisco, CA"
+  },
+  {
+    "id": "CNT-003",
+    "name": "Mike Chen",
+    "email": "mike.chen@gainsolutions.com",
+    "phone": "+1 (555) 345-6789",
+    "department": "Engineering",
+    "role": "Backend Developer",
+    "avatar_url": "https://i.pravatar.cc/150?img=3",
+    "is_online": false,
+    "location": "Seattle, WA"
+  },
+  {
+    "id": "CNT-004",
+    "name": "Emily Davis",
+    "email": "emily.davis@gainsolutions.com",
+    "phone": "+1 (555) 456-7890",
+    "department": "Product",
+    "role": "Product Manager",
+    "avatar_url": "https://i.pravatar.cc/150?img=9",
+    "is_online": true,
+    "location": "Austin, TX"
+  },
+  {
+    "id": "CNT-005",
+    "name": "Alex Wilson",
+    "email": "alex.wilson@gainsolutions.com",
+    "phone": "+1 (555) 567-8901",
+    "department": "Engineering",
+    "role": "Mobile Developer",
+    "avatar_url": "https://i.pravatar.cc/150?img=7",
+    "is_online": false,
+    "location": "Denver, CO"
+  },
+  {
+    "id": "CNT-006",
+    "name": "Lisa Brown",
+    "email": "lisa.brown@gainsolutions.com",
+    "phone": "+1 (555) 678-9012",
+    "department": "QA",
+    "role": "QA Engineer",
+    "avatar_url": "https://i.pravatar.cc/150?img=10",
+    "is_online": true,
+    "location": "Chicago, IL"
+  },
+  {
+    "id": "CNT-007",
+    "name": "David Lee",
+    "email": "david.lee@gainsolutions.com",
+    "phone": "+1 (555) 789-0123",
+    "department": "Engineering",
+    "role": "DevOps Engineer",
+    "avatar_url": "https://i.pravatar.cc/150?img=4",
+    "is_online": false,
+    "location": "Boston, MA"
+  },
+  {
+    "id": "CNT-008",
+    "name": "Jennifer Martinez",
+    "email": "jennifer.martinez@gainsolutions.com",
+    "phone": "+1 (555) 890-1234",
+    "department": "Support",
+    "role": "Support Specialist",
+    "avatar_url": "https://i.pravatar.cc/150?img=11",
+    "is_online": true,
+    "location": "Miami, FL"
+  },
+  {
+    "id": "CNT-009",
+    "name": "Robert Taylor",
+    "email": "robert.taylor@gainsolutions.com",
+    "phone": "+1 (555) 901-2345",
+    "department": "Management",
+    "role": "Engineering Manager",
+    "avatar_url": "https://i.pravatar.cc/150?img=12",
+    "is_online": false,
+    "location": "Portland, OR"
+  },
+  {
+    "id": "CNT-010",
+    "name": "Amanda White",
+    "email": "amanda.white@gainsolutions.com",
+    "phone": "+1 (555) 012-3456",
+    "department": "HR",
+    "role": "HR Manager",
+    "avatar_url": "https://i.pravatar.cc/150?img=13",
+    "is_online": true,
+    "location": "Atlanta, GA"
+  }
+]
