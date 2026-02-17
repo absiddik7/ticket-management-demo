@@ -1,12 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-/// Ticket priority levels
 enum TicketPriority { low, medium, high, critical }
 
-/// Ticket status states
 enum TicketStatus { open, inProgress, resolved, closed, pending }
 
-/// Ticket model representing a support ticket
 class Ticket extends Equatable {
   final String id;
   final String title;
@@ -34,7 +31,6 @@ class Ticket extends Equatable {
     required this.updatedAt,
   });
 
-  /// Create a Ticket from JSON map
   factory Ticket.fromJson(Map<String, dynamic> json) {
     return Ticket(
       id: json['id'] as String,
@@ -51,7 +47,6 @@ class Ticket extends Equatable {
     );
   }
 
-  /// Convert Ticket to JSON map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -101,7 +96,6 @@ class Ticket extends Equatable {
     }
   }
 
-  /// Get display string for status
   String get statusDisplayText {
     switch (status) {
       case TicketStatus.open:
@@ -117,7 +111,6 @@ class Ticket extends Equatable {
     }
   }
 
-  /// Get display string for priority
   String get priorityDisplayText {
     switch (priority) {
       case TicketPriority.low:
@@ -131,7 +124,6 @@ class Ticket extends Equatable {
     }
   }
 
-  /// Create a copy with updated fields
   Ticket copyWith({
     String? id,
     String? title,

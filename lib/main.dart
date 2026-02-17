@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'bloc/bloc.dart';
-import 'core/theme/theme.dart';
-import 'core/constants/constants.dart';
-import 'ui/screens/screens.dart';
+import 'package:ticket_management/bloc/theme/theme_bloc.dart';
+import 'package:ticket_management/bloc/theme/theme_event.dart';
+import 'package:ticket_management/bloc/theme/theme_state.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
+import 'package:ticket_management/core/theme/app_theme.dart';
+import 'package:ticket_management/ui/screens/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

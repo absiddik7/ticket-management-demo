@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/constants.dart';
-import '../../data/models/models.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/data/models/contact.dart';
 
-/// Widget displaying a single contact item in a list
 class ContactCard extends StatelessWidget {
   final Contact contact;
   final VoidCallback? onTap;

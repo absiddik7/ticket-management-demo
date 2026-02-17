@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../constants/constants.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
 
-/// Application theme configuration
-/// Provides consistent styling across the app
 class AppTheme {
   AppTheme._();
 
@@ -17,7 +16,6 @@ class AppTheme {
   static const Color _darkDivider = Color(0xFF3D3D3D);
   static const Color _darkNavInactive = Color(0xFF757575);
 
-  /// Light theme configuration
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -226,7 +224,6 @@ class AppTheme {
     );
   }
 
-  /// Dark theme configuration
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,

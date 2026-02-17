@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/bloc.dart';
-import '../../core/constants/constants.dart';
-import 'ticket_screen.dart';
-import 'contact_screen.dart';
-import 'profile_screen.dart';
+import 'package:ticket_management/bloc/contact/contact_bloc.dart';
+import 'package:ticket_management/bloc/profile/profile_bloc.dart';
+import 'package:ticket_management/bloc/ticket/ticket_bloc.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
+import 'package:ticket_management/ui/screens/contact_screen.dart';
+import 'package:ticket_management/ui/screens/profile_screen.dart';
+import 'package:ticket_management/ui/screens/ticket_screen.dart';
 
-/// Main navigation shell with bottom navigation bar
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 

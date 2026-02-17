@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/bloc.dart';
-import '../../core/constants/constants.dart';
-import '../widgets/widgets.dart';
+import 'package:ticket_management/bloc/theme/theme_bloc.dart';
+import 'package:ticket_management/bloc/theme/theme_event.dart';
+import 'package:ticket_management/bloc/ticket/ticket_bloc.dart';
+import 'package:ticket_management/bloc/ticket/ticket_event.dart';
+import 'package:ticket_management/bloc/ticket/ticket_state.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../widgets/ticket_detail_sheet.dart';
+import 'package:ticket_management/ui/widgets/common_widgets.dart';
+import 'package:ticket_management/ui/widgets/ticket_card.dart';
+import 'package:ticket_management/ui/widgets/ticket_detail_sheet.dart';
 import 'filter_screen.dart';
 
-/// Screen displaying the list of tickets
 class TicketScreen extends StatefulWidget {
   const TicketScreen({super.key});
 
@@ -269,5 +275,3 @@ class _TicketScreenState extends State<TicketScreen> {
     );
   }
 }
-
-// Ticket detail sheet moved to `lib/ui/widgets/ticket_detail_sheet.dart`.

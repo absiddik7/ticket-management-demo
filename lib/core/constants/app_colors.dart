@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Application color constants
-/// Centralized color management for consistent theming
 class AppColors {
   AppColors._();
 

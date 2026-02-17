@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/models.dart';
+import 'package:ticket_management/data/models/contact.dart';
 
-/// Contact state status
 enum ContactStateStatus { initial, loading, loaded, error }
 
-/// State class for contact BLoC
 class ContactState extends Equatable {
   final ContactStateStatus status;
   final List<Contact> contacts;
@@ -20,14 +18,11 @@ class ContactState extends Equatable {
     this.errorMessage,
   });
 
-  /// Get contacts to display (search results or all)
   List<Contact> get displayContacts =>
       searchQuery.isNotEmpty ? searchResults : contacts;
 
-  /// Check if search is active
   bool get isSearching => searchQuery.isNotEmpty;
 
-  /// Create a copy with updated fields
   ContactState copyWith({
     ContactStateStatus? status,
     List<Contact>? contacts,
@@ -46,10 +41,10 @@ class ContactState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        contacts,
-        searchResults,
-        searchQuery,
-        errorMessage,
-      ];
+    status,
+    contacts,
+    searchResults,
+    searchQuery,
+    errorMessage,
+  ];
 }

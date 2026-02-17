@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/bloc.dart';
-import '../../core/constants/constants.dart';
-import '../widgets/widgets.dart';
+import 'package:ticket_management/bloc/contact/contact_bloc.dart';
+import 'package:ticket_management/bloc/contact/contact_event.dart';
+import 'package:ticket_management/bloc/contact/contact_state.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
+import 'package:ticket_management/ui/widgets/common_search_bar.dart';
+import 'package:ticket_management/ui/widgets/contact_card.dart';
+import 'package:ticket_management/ui/widgets/contact_detail_sheet.dart';
 
-/// Screen displaying contacts with search functionality
+
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
 

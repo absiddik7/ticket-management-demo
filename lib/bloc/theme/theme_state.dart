@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// State class for theme management
 class ThemeState {
   final ThemeMode themeMode;
   final bool isDarkMode;

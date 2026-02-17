@@ -1,5 +1,3 @@
-/// Application dimension constants
-/// Consistent spacing, sizing, and layout values
 class AppDimensions {
   AppDimensions._();
 

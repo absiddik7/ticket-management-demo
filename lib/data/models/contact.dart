@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Contact model representing a team member
 class Contact extends Equatable {
   final String id;
   final String name;
@@ -24,7 +23,6 @@ class Contact extends Equatable {
     this.location = 'Not specified',
   });
 
-  /// Create a Contact from JSON map
   factory Contact.fromJson(Map<String, dynamic> json) {
     return Contact(
       id: json['id'] as String,
@@ -39,7 +37,6 @@ class Contact extends Equatable {
     );
   }
 
-  /// Convert Contact to JSON map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -54,7 +51,6 @@ class Contact extends Equatable {
     };
   }
 
-  /// Get initials from name
   String get initials {
     final parts = name.split(' ');
     if (parts.length >= 2) {
@@ -63,7 +59,6 @@ class Contact extends Equatable {
     return name.isNotEmpty ? name[0].toUpperCase() : '';
   }
 
-  /// Create a copy with updated fields
   Contact copyWith({
     String? id,
     String? name,

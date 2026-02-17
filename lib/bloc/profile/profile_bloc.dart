@@ -1,9 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/repositories/repositories.dart';
+import 'package:ticket_management/data/repositories/profile_repository.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
 
-/// BLoC for managing profile state
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepository _profileRepository;
 
@@ -14,7 +13,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<RefreshProfile>(_onRefreshProfile);
   }
 
-  /// Handle load profile event
   Future<void> _onLoadProfile(
     LoadProfile event,
     Emitter<ProfileState> emit,
@@ -40,7 +38,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  /// Handle refresh profile event
   Future<void> _onRefreshProfile(
     RefreshProfile event,
     Emitter<ProfileState> emit,

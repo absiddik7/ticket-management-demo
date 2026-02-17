@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/bloc.dart';
-import '../../core/constants/constants.dart';
-import '../widgets/widgets.dart';
+import 'package:ticket_management/bloc/profile/profile_bloc.dart';
+import 'package:ticket_management/bloc/profile/profile_event.dart';
+import 'package:ticket_management/bloc/profile/profile_state.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
+import 'package:ticket_management/ui/widgets/common_widgets.dart';
 
-/// Screen displaying user profile information
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 

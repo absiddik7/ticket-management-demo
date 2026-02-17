@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/models.dart';
+import 'package:ticket_management/data/models/user_profile.dart';
 
-/// Profile state status
 enum ProfileStateStatus { initial, loading, loaded, error }
 
-/// State class for profile BLoC
 class ProfileState extends Equatable {
   final ProfileStateStatus status;
   final UserProfile? profile;
@@ -18,7 +16,6 @@ class ProfileState extends Equatable {
     this.errorMessage,
   });
 
-  /// Create a copy with updated fields
   ProfileState copyWith({
     ProfileStateStatus? status,
     UserProfile? profile,

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// User profile model
 class UserProfile extends Equatable {
   final String id;
   final String name;
@@ -26,7 +25,6 @@ class UserProfile extends Equatable {
     required this.ticketsResolved,
   });
 
-  /// Create a UserProfile from JSON map
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
       id: json['id'] as String,
@@ -42,7 +40,6 @@ class UserProfile extends Equatable {
     );
   }
 
-  /// Convert UserProfile to JSON map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -58,7 +55,6 @@ class UserProfile extends Equatable {
     };
   }
 
-  /// Get initials from name
   String get initials {
     final parts = name.split(' ');
     if (parts.length >= 2) {
@@ -67,7 +63,6 @@ class UserProfile extends Equatable {
     return name.isNotEmpty ? name[0].toUpperCase() : '';
   }
 
-  /// Create a copy with updated fields
   UserProfile copyWith({
     String? id,
     String? name,

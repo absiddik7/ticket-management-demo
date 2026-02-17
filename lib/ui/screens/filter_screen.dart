@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/bloc.dart';
-import '../../core/constants/constants.dart';
-import '../../data/models/models.dart';
-import '../widgets/widgets.dart';
+import 'package:ticket_management/bloc/ticket/ticket_bloc.dart';
+import 'package:ticket_management/bloc/ticket/ticket_event.dart';
+import 'package:ticket_management/bloc/ticket/ticket_state.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
+import 'package:ticket_management/data/models/filter.dart';
+import 'package:ticket_management/ui/widgets/common_search_bar.dart';
 
-/// Screen for filtering tickets with dynamic filter options
-/// Supports multiple filter display types: chips, dropdown, checkbox list, search with chips
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
 
@@ -15,7 +17,6 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  /// Search controller for searchable filter groups
   final Map<String, TextEditingController> _searchControllers = {};
   final Map<String, String> _searchQueries = {};
 
@@ -52,7 +53,10 @@ class _FilterScreenState extends State<FilterScreen> {
       elevation: 0,
       leading: IconButton(
         onPressed: () => Navigator.of(context).pop(),
-        icon: Icon(Icons.close, color: Theme.of(context).textTheme.bodyLarge?.color),
+        icon: Icon(
+          Icons.close,
+          color: Theme.of(context).textTheme.bodyLarge?.color,
+        ),
       ),
       title: Text(
         AppStrings.filterTitle,
@@ -103,7 +107,7 @@ class _FilterScreenState extends State<FilterScreen> {
   void _applyFilters(BuildContext context) {
     final state = context.read<TicketBloc>().state;
     final selectedFilters = <String, List<String>>{};
-    
+
     for (final group in state.filterGroups) {
       final selectedValues = group.options
           .where((o) => o.isSelected)
@@ -113,8 +117,10 @@ class _FilterScreenState extends State<FilterScreen> {
         selectedFilters[group.id] = selectedValues;
       }
     }
-    
-    context.read<TicketBloc>().add(ApplyFilters(selectedFilters: selectedFilters));
+
+    context.read<TicketBloc>().add(
+      ApplyFilters(selectedFilters: selectedFilters),
+    );
     Navigator.of(context).pop();
   }
 
@@ -142,7 +148,6 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  /// Build filter group based on its display type
   Widget _buildFilterGroup(BuildContext context, FilterGroup group) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +183,6 @@ class _FilterScreenState extends State<FilterScreen> {
     }
   }
 
-  /// Build horizontal scrollable chips filter
   Widget _buildChipsFilter(BuildContext context, FilterGroup group) {
     return Wrap(
       spacing: AppDimensions.spacingS,
@@ -189,22 +193,20 @@ class _FilterScreenState extends State<FilterScreen> {
           isSelected: option.isSelected,
           colorHex: option.colorHex,
           onTap: () {
-            context.read<TicketBloc>().add(ToggleFilterOption(
-              groupId: group.id,
-              optionId: option.id,
-            ));
+            context.read<TicketBloc>().add(
+              ToggleFilterOption(groupId: group.id, optionId: option.id),
+            );
           },
         );
       }).toList(),
     );
   }
 
-  /// Build dropdown filter
   Widget _buildDropdownFilter(BuildContext context, FilterGroup group) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final selectedOption = group.options.where((o) => o.isSelected).firstOrNull;
-    
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
@@ -213,7 +215,9 @@ class _FilterScreenState extends State<FilterScreen> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppDimensions.radiusM),
-        border: Border.all(color: isDark ? const Color(0xFF3D3D3D) : AppColors.border),
+        border: Border.all(
+          color: isDark ? const Color(0xFF3D3D3D) : AppColors.border,
+        ),
         color: isDark ? const Color(0xFF2C2C2C) : AppColors.background,
       ),
       child: PopupMenuButton<String>(
@@ -222,7 +226,9 @@ class _FilterScreenState extends State<FilterScreen> {
           borderRadius: BorderRadius.circular(AppDimensions.radiusM),
         ),
         elevation: 8,
-        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width - 64),
+        constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width - 64,
+        ),
         itemBuilder: (context) {
           return group.options.map((option) {
             return PopupMenuItem<String>(
@@ -253,7 +259,9 @@ class _FilterScreenState extends State<FilterScreen> {
           final bloc = context.read<TicketBloc>();
           for (final option in group.options) {
             if (option.isSelected && option.id != value) {
-              bloc.add(ToggleFilterOption(groupId: group.id, optionId: option.id));
+              bloc.add(
+                ToggleFilterOption(groupId: group.id, optionId: option.id),
+              );
             }
           }
           // Toggle the new selection
@@ -274,7 +282,9 @@ class _FilterScreenState extends State<FilterScreen> {
                     Container(
                       width: 12,
                       height: 12,
-                      margin: const EdgeInsets.only(right: AppDimensions.spacingS),
+                      margin: const EdgeInsets.only(
+                        right: AppDimensions.spacingS,
+                      ),
                       decoration: BoxDecoration(
                         color: _hexToColor(selectedOption.colorHex!),
                         shape: BoxShape.circle,
@@ -308,24 +318,26 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  /// Build checkbox list filter with optional icons
   Widget _buildCheckboxListFilter(BuildContext context, FilterGroup group) {
     final theme = Theme.of(context);
-    
+
     return Column(
       children: group.options.map((option) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingXS),
+          padding: const EdgeInsets.symmetric(
+            vertical: AppDimensions.paddingXS,
+          ),
           child: InkWell(
             onTap: () {
-              context.read<TicketBloc>().add(ToggleFilterOption(
-                groupId: group.id,
-                optionId: option.id,
-              ));
+              context.read<TicketBloc>().add(
+                ToggleFilterOption(groupId: group.id, optionId: option.id),
+              );
             },
             borderRadius: BorderRadius.circular(AppDimensions.radiusS),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingS),
+              padding: const EdgeInsets.symmetric(
+                vertical: AppDimensions.paddingS,
+              ),
               child: Row(
                 children: [
                   // Checkbox
@@ -335,10 +347,12 @@ class _FilterScreenState extends State<FilterScreen> {
                     child: Checkbox(
                       value: option.isSelected,
                       onChanged: (_) {
-                        context.read<TicketBloc>().add(ToggleFilterOption(
-                          groupId: group.id,
-                          optionId: option.id,
-                        ));
+                        context.read<TicketBloc>().add(
+                          ToggleFilterOption(
+                            groupId: group.id,
+                            optionId: option.id,
+                          ),
+                        );
                       },
                       activeColor: AppColors.primary,
                       shape: RoundedRectangleBorder(
@@ -378,7 +392,6 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  /// Build search with chips filter
   Widget _buildSearchWithChipsFilter(BuildContext context, FilterGroup group) {
     // Initialize search controller if needed
     _searchControllers.putIfAbsent(group.id, () => TextEditingController());
@@ -387,9 +400,12 @@ class _FilterScreenState extends State<FilterScreen> {
     final searchQuery = _searchQueries[group.id] ?? '';
     final filteredOptions = searchQuery.isEmpty
         ? group.options
-        : group.options.where(
-            (o) => o.label.toLowerCase().contains(searchQuery.toLowerCase()),
-          ).toList();
+        : group.options
+              .where(
+                (o) =>
+                    o.label.toLowerCase().contains(searchQuery.toLowerCase()),
+              )
+              .toList();
 
     return Column(
       children: [
@@ -408,7 +424,7 @@ class _FilterScreenState extends State<FilterScreen> {
             });
           },
         ),
-        
+
         const SizedBox(height: AppDimensions.spacingM),
         // Chips
         Wrap(
@@ -420,10 +436,9 @@ class _FilterScreenState extends State<FilterScreen> {
               isSelected: option.isSelected,
               colorHex: option.colorHex,
               onTap: () {
-                context.read<TicketBloc>().add(ToggleFilterOption(
-                  groupId: group.id,
-                  optionId: option.id,
-                ));
+                context.read<TicketBloc>().add(
+                  ToggleFilterOption(groupId: group.id, optionId: option.id),
+                );
               },
             );
           }).toList(),
@@ -432,13 +447,11 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
-  /// Convert hex color string to Color
   Color _hexToColor(String hex) {
     final hexCode = hex.replaceAll('#', '');
     return Color(int.parse('FF$hexCode', radix: 16));
   }
 
-  /// Get icon data from icon name string
   IconData _getIconData(String? iconName) {
     switch (iconName) {
       case 'business':
@@ -457,7 +470,6 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 }
 
-/// Custom filter chip widget with animation
 class _FilterChip extends StatelessWidget {
   final String label;
   final bool isSelected;
@@ -488,10 +500,14 @@ class _FilterChip extends StatelessWidget {
           vertical: AppDimensions.paddingS,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? chipColor : (isDark ? const Color(0xFF1E1E1E) : AppColors.surface),
+          color: isSelected
+              ? chipColor
+              : (isDark ? const Color(0xFF1E1E1E) : AppColors.surface),
           borderRadius: BorderRadius.circular(AppDimensions.radiusCircle),
           border: Border.all(
-            color: isSelected ? chipColor : (isDark ? const Color(0xFF3D3D3D) : AppColors.border),
+            color: isSelected
+                ? chipColor
+                : (isDark ? const Color(0xFF3D3D3D) : AppColors.border),
             width: 1.5,
           ),
         ),
@@ -511,7 +527,9 @@ class _FilterChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: AppDimensions.fontS,
                 fontWeight: FontWeight.w500,
-                color: isSelected ? AppColors.textOnPrimary : theme.textTheme.bodyLarge?.color,
+                color: isSelected
+                    ? AppColors.textOnPrimary
+                    : theme.textTheme.bodyLarge?.color,
               ),
             ),
           ],

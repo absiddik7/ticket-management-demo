@@ -1,27 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-/// Filter display type enumeration
-/// Controls how the filter group is rendered in the UI
 enum FilterDisplayType {
-  /// Horizontal scrollable chips
   chips,
-  /// Dropdown selector
   dropdown,
-  /// Checkbox list with optional icons
   checkboxList,
-  /// Search field with chip selection
   searchWithChips,
 }
 
-/// Filter option model for dynamic filtering
 class FilterOption extends Equatable {
   final String id;
   final String label;
   final String value;
   final bool isSelected;
-  /// Optional icon name for checkbox list display
   final String? iconName;
-  /// Optional color for visual indicators
   final String? colorHex;
 
   const FilterOption({
@@ -33,7 +24,6 @@ class FilterOption extends Equatable {
     this.colorHex,
   });
 
-  /// Create a FilterOption from JSON map
   factory FilterOption.fromJson(Map<String, dynamic> json) {
     return FilterOption(
       id: json['id'] as String,
@@ -45,7 +35,6 @@ class FilterOption extends Equatable {
     );
   }
 
-  /// Convert FilterOption to JSON map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -57,7 +46,6 @@ class FilterOption extends Equatable {
     };
   }
 
-  /// Create a copy with updated fields
   FilterOption copyWith({
     String? id,
     String? label,
@@ -80,15 +68,12 @@ class FilterOption extends Equatable {
   List<Object?> get props => [id, label, value, isSelected, iconName, colorHex];
 }
 
-/// Filter group model containing multiple filter options
 class FilterGroup extends Equatable {
   final String id;
   final String title;
   final List<FilterOption> options;
   final bool allowMultiple;
-  /// Display type determines how this filter group is rendered
   final FilterDisplayType displayType;
-  /// Optional hint text for search or dropdown
   final String? hintText;
 
   const FilterGroup({
@@ -100,7 +85,6 @@ class FilterGroup extends Equatable {
     this.hintText,
   });
 
-  /// Create a FilterGroup from JSON map
   factory FilterGroup.fromJson(Map<String, dynamic> json) {
     return FilterGroup(
       id: json['id'] as String,
@@ -114,7 +98,6 @@ class FilterGroup extends Equatable {
     );
   }
 
-  /// Convert FilterGroup to JSON map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -143,11 +126,9 @@ class FilterGroup extends Equatable {
     }
   }
 
-  /// Get selected options
   List<FilterOption> get selectedOptions =>
       options.where((option) => option.isSelected).toList();
 
-  /// Create a copy with updated fields
   FilterGroup copyWith({
     String? id,
     String? title,

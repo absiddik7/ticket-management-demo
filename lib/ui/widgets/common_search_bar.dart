@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/constants.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
 
-/// Common search bar widget usable across the app
 class CommonSearchBar extends StatelessWidget {
   final String hintText;
   final ValueChanged<String>? onChanged;

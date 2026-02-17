@@ -1,5 +1,3 @@
-/// Application string constants
-/// All user-facing strings for easy localization and maintenance
 class AppStrings {
   AppStrings._();
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/constants.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
 
-/// Loading indicator widget
 class LoadingIndicator extends StatelessWidget {
   final String? message;
 
@@ -37,7 +38,6 @@ class LoadingIndicator extends StatelessWidget {
   }
 }
 
-/// Empty state widget
 class EmptyState extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -101,7 +101,6 @@ class EmptyState extends StatelessWidget {
   }
 }
 
-/// Error state widget
 class ErrorState extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;

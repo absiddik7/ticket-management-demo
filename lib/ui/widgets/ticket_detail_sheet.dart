@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../core/constants/constants.dart';
-import '../../data/models/models.dart';
+import 'package:ticket_management/core/constants/app_colors.dart';
+import 'package:ticket_management/core/constants/app_dimensions.dart';
+import 'package:ticket_management/core/constants/app_strings.dart';
+import 'package:ticket_management/data/models/ticket.dart';
 
-/// Bottom sheet showing ticket details (extracted)
 class TicketDetailSheet extends StatelessWidget {
   final Ticket ticket;
 

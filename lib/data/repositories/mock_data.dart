@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import '../models/models.dart';
+import 'package:ticket_management/data/models/contact.dart';
+import 'package:ticket_management/data/models/filter.dart';
+import 'package:ticket_management/data/models/ticket.dart';
+import 'package:ticket_management/data/models/user_profile.dart';
 
-/// Mock data for simulating API responses
-/// This class loads JSON data from asset files and parses them into models,
-/// simulating how real API responses would be handled
 class MockData {
   MockData._();
 
@@ -15,7 +15,6 @@ class MockData {
   static List<Map<String, String>>? _cachedAssignedRoles;
   static List<FilterGroup>? _cachedFilterGroups;
 
-  /// Load and parse tickets from JSON file
   static Future<List<Ticket>> loadTickets() async {
     if (_cachedTickets != null) return _cachedTickets!;
     
@@ -27,7 +26,6 @@ class MockData {
     return _cachedTickets!;
   }
 
-  /// Load and parse contacts from JSON file
   static Future<List<Contact>> loadContacts() async {
     if (_cachedContacts != null) return _cachedContacts!;
     
@@ -39,7 +37,6 @@ class MockData {
     return _cachedContacts!;
   }
 
-  /// Load and parse user profile from JSON file
   static Future<UserProfile> loadUserProfile() async {
     if (_cachedUserProfile != null) return _cachedUserProfile!;
     
@@ -49,7 +46,6 @@ class MockData {
     return _cachedUserProfile!;
   }
 
-  /// Load and parse assigned roles from JSON file
   static Future<List<Map<String, String>>> loadAssignedRoles() async {
     if (_cachedAssignedRoles != null) return _cachedAssignedRoles!;
     
@@ -61,7 +57,6 @@ class MockData {
     return _cachedAssignedRoles!;
   }
 
-  /// Load and parse filter groups from JSON file
   static Future<List<FilterGroup>> loadFilterGroups() async {
     if (_cachedFilterGroups != null) return _cachedFilterGroups!;
     
@@ -73,7 +68,6 @@ class MockData {
     return _cachedFilterGroups!;
   }
 
-  /// Clear all cached data (useful for testing or refreshing data)
   static void clearCache() {
     _cachedTickets = null;
     _cachedContacts = null;

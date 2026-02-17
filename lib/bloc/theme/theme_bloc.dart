@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'theme_event.dart';
 import 'theme_state.dart';
 
-/// BLoC for managing app theme (light/dark mode)
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   static const String _themeKey = 'is_dark_mode';
   

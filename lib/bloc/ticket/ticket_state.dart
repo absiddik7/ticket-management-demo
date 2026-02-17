@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/models.dart';
+import 'package:ticket_management/data/models/filter.dart';
+import 'package:ticket_management/data/models/ticket.dart';
 
-/// Ticket state status
 enum TicketStateStatus { initial, loading, loaded, error }
 
-/// State class for ticket BLoC
 class TicketState extends Equatable {
   final TicketStateStatus status;
   final List<Ticket> tickets;
@@ -24,10 +23,8 @@ class TicketState extends Equatable {
     this.isFiltered = false,
   });
 
-  /// Get tickets to display (filtered or all)
   List<Ticket> get displayTickets => isFiltered ? filteredTickets : tickets;
 
-  /// Get active filter count
   int get activeFilterCount {
     int count = 0;
     for (var filters in selectedFilters.values) {
@@ -36,10 +33,8 @@ class TicketState extends Equatable {
     return count;
   }
 
-  /// Check if any filters are selected
   bool get hasActiveFilters => activeFilterCount > 0;
 
-  /// Create a copy with updated fields
   TicketState copyWith({
     TicketStateStatus? status,
     List<Ticket>? tickets,

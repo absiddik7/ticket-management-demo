@@ -1,18 +1,15 @@
-import '../models/models.dart';
+import 'package:ticket_management/data/models/filter.dart';
+import 'package:ticket_management/data/models/ticket.dart';
+
 import 'mock_data.dart';
 
-/// Repository for ticket-related operations
-/// Simulates API calls using mock data loaded from JSON files
 class TicketRepository {
-  /// Get all tickets (simulates API call)
   Future<List<Ticket>> getTickets() async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 800));
     return await MockData.loadTickets();
   }
 
-  /// Get filtered tickets based on selected filters
-  /// Supports dynamic filter groups by ID
   Future<List<Ticket>> getFilteredTickets({
     List<String>? priorities,
     List<String>? brands,
@@ -68,7 +65,6 @@ class TicketRepository {
     return filteredTickets;
   }
 
-  /// Get ticket by ID
   Future<Ticket?> getTicketById(String id) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
@@ -79,7 +75,6 @@ class TicketRepository {
     }
   }
 
-  /// Get filter options (simulates dynamic filters from API)
   Future<List<FilterGroup>> getFilterOptions() async {
     await Future.delayed(const Duration(milliseconds: 500));
     return await MockData.loadFilterGroups();

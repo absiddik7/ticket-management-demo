@@ -1,10 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/models/models.dart';
-import '../../data/repositories/repositories.dart';
+import 'package:ticket_management/data/models/filter.dart';
+import 'package:ticket_management/data/repositories/ticket_repository.dart';
 import 'ticket_event.dart';
 import 'ticket_state.dart';
 
-/// BLoC for managing ticket state
 class TicketBloc extends Bloc<TicketEvent, TicketState> {
   final TicketRepository _ticketRepository;
 
@@ -20,7 +19,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     on<ResetFilterSelections>(_onResetFilterSelections);
   }
 
-  /// Handle load tickets event
   Future<void> _onLoadTickets(
     LoadTickets event,
     Emitter<TicketState> emit,
@@ -42,7 +40,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     }
   }
 
-  /// Handle refresh tickets event
   Future<void> _onRefreshTickets(
     RefreshTickets event,
     Emitter<TicketState> emit,
@@ -77,7 +74,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     }
   }
 
-  /// Handle load filter options event
   Future<void> _onLoadFilterOptions(
     LoadFilterOptions event,
     Emitter<TicketState> emit,
@@ -105,7 +101,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     }
   }
 
-  /// Handle toggle filter option event
   void _onToggleFilterOption(
     ToggleFilterOption event,
     Emitter<TicketState> emit,
@@ -164,7 +159,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     ));
   }
 
-  /// Handle apply filters event
   Future<void> _onApplyFilters(
     ApplyFilters event,
     Emitter<TicketState> emit,
@@ -192,7 +186,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     }
   }
 
-  /// Handle clear filters event
   Future<void> _onClearFilters(
     ClearFilters event,
     Emitter<TicketState> emit,
@@ -214,7 +207,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     ));
   }
 
-  /// Handle reset filter selections event
   void _onResetFilterSelections(
     ResetFilterSelections event,
     Emitter<TicketState> emit,
