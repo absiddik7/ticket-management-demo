@@ -10,7 +10,7 @@
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](##overview)
 - [Features](#features)
@@ -25,7 +25,6 @@
 - [UI Components](#ui-components)
 - [Getting Started](#getting-started)
 - [Design Decisions](#design-decisions)
-- [Future Enhancements](#future-enhancements)
 
 ---
 
@@ -43,7 +42,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 
 ---
 
-## ✨ Features
+## Features
 
 ### 🎟️ Ticket Management
 | Feature | Description |
@@ -88,7 +87,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 
 ---
 
-## 📱 Screenshots
+## Screenshots
 
 <div align="center">
 
@@ -113,7 +112,7 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 </div>
 ---
 
-## 🎬 Demo Video
+## Demo Video
 
 <div align="center">
 
@@ -123,7 +122,7 @@ https://github.com/user-attachments/assets/ba5d3efe-30b5-48ea-ad08-34274fc19987
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Clean Architecture Overview
 
@@ -174,7 +173,7 @@ https://github.com/user-attachments/assets/ba5d3efe-30b5-48ea-ad08-34274fc19987
 
 ---
 
-## 💡 Implementation Approach
+## Implementation Approach
 
 ### 1. State Management with BLoC
 
@@ -211,7 +210,7 @@ Immutable models with value equality for efficient state comparison and widget r
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 <div align="center">
 
@@ -229,7 +228,7 @@ Immutable models with value equality for efficient state comparison and widget r
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ticket_management/
@@ -306,7 +305,7 @@ ticket_management/
 
 ---
 
-## 🔄 State Management (BLoC Pattern)
+## State Management (BLoC Pattern)
 
 ### Event-State Flow
 
@@ -352,7 +351,7 @@ ticket_management/
 
 ---
 
-## 📊 Data Models
+## Data Models
 
 ### Ticket Model
 
@@ -378,7 +377,7 @@ ticket_management/
 
 ---
 
-## 🎨 UI Components
+## UI Components
 
 ### Reusable Widgets
 
@@ -397,7 +396,7 @@ All components automatically adapt to light/dark theme for consistent user exper
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -425,7 +424,7 @@ flutter run
 ```
 ---
 
-## 🎯 Design Decisions
+## Design Decisions
 
 ### Why BLoC?
 
