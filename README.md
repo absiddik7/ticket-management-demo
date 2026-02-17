@@ -1,4 +1,4 @@
-# 🎫 Ticket Management App
+# Ticket Management App
 
 ### A Professional Flutter Application for Enterprise Support Ticket Management
 
@@ -12,7 +12,7 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
+- [Overview](##overview)
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Demo Video](#demo-video)
@@ -29,7 +29,7 @@
 
 ---
 
-## 🎯 Overview
+## Overview
 
 The **Ticket Management App** is a comprehensive mobile solution designed for enterprise support ticket management. It enables teams to efficiently track, filter, and manage support tickets while providing seamless contact management and user profile features.
 
