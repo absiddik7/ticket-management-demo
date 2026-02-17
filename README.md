@@ -129,36 +129,36 @@ https://github.com/user-attachments/assets/ba5d3efe-30b5-48ea-ad08-34274fc19987
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    PRESENTATION LAYER                        │
+│                    PRESENTATION LAYER                       │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │                     UI (Widgets)                      │    │
-│  │   Screens │ Widgets │ Common Components               │    │
+│  │                     UI (Widgets)                    │    │
+│  │   Screens │ Widgets │ Common Components             │    │
 │  └─────────────────────────┬───────────────────────────┘    │
-│                            │                                  │
+│                            │                                │
 │  ┌─────────────────────────▼───────────────────────────┐    │
-│  │                   BLoC (State Management)             │    │
-│  │   TicketBloc │ ContactBloc │ ProfileBloc │ ThemeBloc  │    │
+│  │                   BLoC (State Management)           │    │
+│  │   TicketBloc │ ContactBloc │ ProfileBloc │ ThemeBloc│    │
 │  └─────────────────────────┬───────────────────────────┘    │
 └────────────────────────────┼────────────────────────────────┘
                              │
 ┌────────────────────────────▼────────────────────────────────┐
-│                      DOMAIN LAYER                            │
+│                      DOMAIN LAYER                           │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │                    Data Models                        │    │
-│  │   Ticket │ Contact │ UserProfile │ Filter             │    │
+│  │                    Data Models                      │    │
+│  │   Ticket │ Contact │ UserProfile │ Filter           │    │
 │  └─────────────────────────────────────────────────────┘    │
 └────────────────────────────┬────────────────────────────────┘
                              │
 ┌────────────────────────────▼────────────────────────────────┐
-│                       DATA LAYER                             │
+│                       DATA LAYER                            │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │                   Repositories                        │    │
-│  │   TicketRepository │ ContactRepository │ ProfileRepo  │    │
+│  │                   Repositories                      │    │
+│  │   TicketRepository │ ContactRepository │ ProfileRepo│    │
 │  └─────────────────────────┬───────────────────────────┘    │
-│                            │                                  │
+│                            │                                │
 │  ┌─────────────────────────▼───────────────────────────┐    │
-│  │                   Data Source                         │    │
-│  │   JSON Files │ Cached Data │ Simulated Delays         │    │
+│  │                   Data Source                       │    │
+│  │   JSON Files │ Cached Data │ Simulated Delays       │    │
 │  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
