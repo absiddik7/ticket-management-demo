@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/bloc.dart';
 import '../../core/constants/constants.dart';
+import '../../data/repositories/mock_data.dart';
 import '../widgets/widgets.dart';
 
 /// Screen displaying user profile information
@@ -55,8 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           case ProfileStateStatus.error:
             return ErrorState(
               message: state.errorMessage ?? AppStrings.errorGeneric,
-              onRetry: () =>
-                  context.read<ProfileBloc>().add(const LoadProfile()),
+              onRetry: () => context.read<ProfileBloc>().add(const LoadProfile()),
             );
 
           case ProfileStateStatus.loaded:
@@ -80,7 +80,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             const SizedBox(height: AppDimensions.paddingL),
 
-    
             // Profile summary card (light blue)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
@@ -126,10 +125,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  Widget _buildHeader(profile) {
-    return const SizedBox.shrink();
   }
 
   Widget _buildProfileCard(profile) {
@@ -205,55 +200,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildRolesSection() {
-    final cards = [
-      {
-        'title': 'Manager',
-        'group': 'Codecyaneon support',
-        'manager': 'Jonaus Kahnwald',
-      },
-      {
-        'title': 'Agent',
-        'group': 'Laravel Ops',
-        'manager': 'Sarah Johnson',
-      },
-    ];
+    final roles = MockData.assignedRoles;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Assigned roles (3)', style: TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textSecondary)),
+        Text('Assigned roles (${roles.length})', style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textSecondary)),
         const SizedBox(height: AppDimensions.spacingM),
         SizedBox(
-          height: 160,
+          height: 190,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            itemCount: cards.length,
+            itemCount: roles.length,
             separatorBuilder: (_, __) => const SizedBox(width: AppDimensions.spacingM),
             itemBuilder: (context, index) {
-              final c = cards[index];
+              final c = roles[index];
               return Container(
                 width: 280,
                 decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.background,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.cardShadow.withValues(alpha: 0.04),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 padding: const EdgeInsets.all(AppDimensions.paddingL),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(c['title']!, style: const TextStyle(fontSize: AppDimensions.fontXL, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+                    Text(
+                      c['title']!,
+                      style: const TextStyle(fontSize: AppDimensions.fontXXL, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                    ),
                     const SizedBox(height: AppDimensions.spacingM),
-                    const Divider(color: AppColors.divider),
+                    const Divider(color: AppColors.divider, thickness: 1),
                     const SizedBox(height: AppDimensions.spacingS),
-                    Text('Group', style: const TextStyle(fontSize: AppDimensions.fontS, color: AppColors.textSecondary)),
+                    const Text('Group', style: TextStyle(fontSize: AppDimensions.fontS, color: AppColors.textSecondary)),
                     const SizedBox(height: AppDimensions.spacingXS),
-                    Text(c['group']!, style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textPrimary)),
+                    Text(c['group']!, style: const TextStyle(fontSize: AppDimensions.fontM, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
                     const Spacer(),
+                    const Text('Manager', style: TextStyle(fontSize: AppDimensions.fontS, color: AppColors.textSecondary)),
+                    const SizedBox(height: AppDimensions.spacingXS),
                     Row(
                       children: [
-                        CircleAvatar(radius: 16, backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=1')),
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.18), width: 2),
+                          ),
+                          child: CircleAvatar(
+                            radius: 16,
+                            backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=${index + 1}'),
+                            backgroundColor: AppColors.surface,
+                            onBackgroundImageError: (_, __) {},
+                          ),
+                        ),
                         const SizedBox(width: AppDimensions.spacingS),
-                        Text(c['manager']!, style: const TextStyle(fontSize: AppDimensions.fontM, color: AppColors.textPrimary)),
+                        Expanded(
+                          child: Text(
+                            c['manager']!,
+                            style: const TextStyle(fontSize: AppDimensions.fontM, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -264,239 +279,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ],
     );
-  }
-
-  Widget _buildStatsSection(profile) {
-    return Transform.translate(
-      offset: const Offset(0, -20),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
-        child: Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(AppDimensions.paddingL),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _buildStatItem(
-                    icon: Icons.add_task,
-                    value: profile.ticketsCreated.toString(),
-                    label: AppStrings.profileTicketsCreated,
-                    color: AppColors.primary,
-                  ),
-                ),
-                Container(
-                  height: 40,
-                  width: 1,
-                  color: AppColors.divider,
-                ),
-                Expanded(
-                  child: _buildStatItem(
-                    icon: Icons.check_circle_outline,
-                    value: profile.ticketsResolved.toString(),
-                    label: AppStrings.profileTicketsResolved,
-                    color: AppColors.success,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatItem({
-    required IconData icon,
-    required String value,
-    required String label,
-    required Color color,
-  }) {
-    return Column(
-      children: [
-        Icon(icon, color: color, size: AppDimensions.iconL),
-        const SizedBox(height: AppDimensions.spacingS),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: AppDimensions.fontXXL,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: AppDimensions.fontXS,
-            color: AppColors.textSecondary,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInfoSection(profile) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingL),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(AppDimensions.paddingL),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Contact Information',
-                style: TextStyle(
-                  fontSize: AppDimensions.fontL,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: AppDimensions.spacingL),
-              _buildInfoRow(
-                icon: Icons.email_outlined,
-                label: AppStrings.profileEmail,
-                value: profile.email,
-              ),
-              const Divider(height: AppDimensions.spacingXL),
-              _buildInfoRow(
-                icon: Icons.phone_outlined,
-                label: AppStrings.profilePhone,
-                value: profile.phone,
-              ),
-              const Divider(height: AppDimensions.spacingXL),
-              _buildInfoRow(
-                icon: Icons.calendar_today_outlined,
-                label: AppStrings.profileJoined,
-                value: _formatDate(profile.joinedAt),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(AppDimensions.paddingM),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(AppDimensions.radiusS),
-          ),
-          child: Icon(
-            icon,
-            size: AppDimensions.iconM,
-            color: AppColors.primary,
-          ),
-        ),
-        const SizedBox(width: AppDimensions.spacingM),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: AppDimensions.fontS,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: AppDimensions.fontM,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSettingsSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.paddingL,
-        vertical: AppDimensions.paddingM,
-      ),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.radiusL),
-        ),
-        child: Column(
-          children: [
-            _buildSettingsTile(
-              icon: Icons.edit_outlined,
-              title: AppStrings.profileEdit,
-              onTap: () {},
-            ),
-            const Divider(height: 1),
-            _buildSettingsTile(
-              icon: Icons.settings_outlined,
-              title: AppStrings.profileSettings,
-              onTap: () {},
-            ),
-            const Divider(height: 1),
-            _buildSettingsTile(
-              icon: Icons.logout,
-              title: AppStrings.profileLogout,
-              onTap: () {},
-              isDestructive: true,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSettingsTile({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-    bool isDestructive = false,
-  }) {
-    return ListTile(
-      onTap: onTap,
-      leading: Icon(
-        icon,
-        color: isDestructive ? AppColors.error : AppColors.iconPrimary,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: isDestructive ? AppColors.error : AppColors.textPrimary,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      trailing: Icon(
-        Icons.chevron_right,
-        color: isDestructive ? AppColors.error : AppColors.iconSecondary,
-      ),
-    );
-  }
-
-  String _formatDate(DateTime date) {
-    final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
 }

@@ -6,8 +6,18 @@ import '../../data/models/models.dart';
 class ContactCard extends StatelessWidget {
   final Contact contact;
   final VoidCallback? onTap;
+  final VoidCallback? onEdit;
+  final VoidCallback? onViewTickets;
+  final VoidCallback? onDelete;
 
-  const ContactCard({super.key, required this.contact, this.onTap});
+  const ContactCard({
+    super.key,
+    required this.contact,
+    this.onTap,
+    this.onEdit,
+    this.onViewTickets,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,36 +51,88 @@ class ContactCard extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+
                       children: [
                         Row(
                           children: [
-                            Text(
-                              contact.name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textPrimary,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  contact.name,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  contact.department,
+                                  style: const TextStyle(
+                                    fontSize: AppDimensions.fontS,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
                             const Spacer(),
-                            const Icon(
-                              Icons.more_vert,
-                              size: AppDimensions.iconM,
-                              color: AppColors.textSecondary,
+                            PopupMenuButton<String>(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              onSelected: (value) {
+                                if (value == 'edit') {
+                                  onEdit?.call();
+                                } else if (value == 'view_tickets') {
+                                  onViewTickets?.call();
+                                } else if (value == 'delete') {
+                                  onDelete?.call();
+                                }
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                    const PopupMenuItem<String>(
+                                      value: 'edit',
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: AppDimensions.spacingM,
+                                        ),
+                                        child: Text('Edit'),
+                                      ),
+                                    ),
+                                    const PopupMenuItem<String>(
+                                      value: 'view_tickets',
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: AppDimensions.spacingM,
+                                        ),
+                                        child: Text('View tickets'),
+                                      ),
+                                    ),
+                                    const PopupMenuItem<String>(
+                                      value: 'delete',
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: AppDimensions.spacingM,
+                                        ),
+                                        child: Text(
+                                          'Delete',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                              icon: const Icon(
+                                Icons.more_vert,
+                                size: AppDimensions.iconM,
+                                color: AppColors.textSecondary,
+                              ),
                             ),
-
                           ],
-                        ),
-                        Text(
-                          contact.department,
-                          style: const TextStyle(
-                            fontSize: AppDimensions.fontS,
-                            color: AppColors.textSecondary,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -86,7 +148,10 @@ class ContactCard extends StatelessWidget {
               _buildInfoRow(icon: Icons.phone_outlined, value: contact.phone),
               const SizedBox(height: AppDimensions.spacingS),
               // location
-              _buildInfoRow(icon: Icons.location_on_outlined, value: contact.location),
+              _buildInfoRow(
+                icon: Icons.location_on_outlined,
+                value: contact.location,
+              ),
             ],
           ),
         ),

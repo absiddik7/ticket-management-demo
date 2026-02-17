@@ -242,12 +242,31 @@ class MockData {
         email: 'alex.thompson@gainsolutions.com',
         phone: '+1 (555) 111-2222',
         department: 'Engineering',
-        role: 'Flutter Developer',
+        role: 'Support',
         avatarUrl: 'https://i.pravatar.cc/150?img=8',
         joinedAt: DateTime(2023, 3, 15),
         ticketsCreated: 24,
         ticketsResolved: 18,
       );
+
+  /// Mock assigned roles for user
+  static List<Map<String, String>> get assignedRoles => [
+        {
+          'title': 'Manager',
+          'group': 'Codecyaneon support',
+          'manager': 'Jonaus Kahnwald',
+        },
+        {
+          'title': 'Agent',
+          'group': 'Laravel Ops',
+          'manager': 'Sarah Johnson',
+        },
+        {
+          'title': 'Reviewer',
+          'group': 'QA Team',
+          'manager': 'Michael Reyes',
+        },
+      ];
 
   /// Mock filter groups (dynamic filters from API)
   /// Demonstrates different filter display types
@@ -266,6 +285,8 @@ class MockData {
               colorHex: '6C63FF',
             ),
             FilterOption(
+
+
               id: 'gainsolution',
               label: 'GainSolution',
               value: 'gainsolution',

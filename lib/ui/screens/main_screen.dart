@@ -54,15 +54,13 @@ class _MainScreenState extends State<MainScreen> {
         boxShadow: [
           BoxShadow(
             color: AppColors.cardShadow.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, -2),
+            offset: const Offset(0, -1),
           ),
         ],
       ),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: AppDimensions.paddingL,
             vertical: AppDimensions.paddingS,
           ),
           child: Row(
@@ -100,12 +98,10 @@ class _MainScreenState extends State<MainScreen> {
     required int index,
   }) {
     final isSelected = _currentIndex == index;
-    
     return GestureDetector(
       onTap: () => setState(() => _currentIndex = index),
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      child: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: AppDimensions.paddingS,
           vertical: AppDimensions.paddingXS,
@@ -113,27 +109,39 @@ class _MainScreenState extends State<MainScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Icon inside pill when selected
+            // Pill background for selected item
             Container(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.symmetric(
+                horizontal: isSelected ? AppDimensions.spacingL : 8,
+                vertical: 2,
+              ),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : AppColors.surface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: isSelected ? AppColors.primary : Colors.transparent,
-                ),
+                color: isSelected ? Colors.blue.withOpacity(0.12) : AppColors.surface,
+                borderRadius: BorderRadius.circular(24),
               ),
-              child: Icon(
-                isSelected ? activeIcon : icon,
-                color: isSelected ? AppColors.textOnPrimary : AppColors.navInactive,
-                size: AppDimensions.iconL - 4,
-              ),
+              child: isSelected
+                  ? Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                       // color: AppColors.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        activeIcon,
+                        color: Colors.blue,
+                      ),
+                    )
+                  : Icon(
+                      icon,
+                      color: AppColors.navInactive,
+                    ),
             ),
             const SizedBox(height: AppDimensions.spacingXS),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? AppColors.navActive : AppColors.navInactive,
+                color: isSelected ? const Color.fromARGB(255, 92, 92, 92) : AppColors.navInactive,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 fontSize: AppDimensions.fontS,
               ),

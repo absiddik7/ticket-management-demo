@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/bloc.dart';
 import '../../core/constants/constants.dart';
 import '../widgets/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/ticket_detail_sheet.dart';
 import 'filter_screen.dart';
 
@@ -130,8 +131,10 @@ class _TicketScreenState extends State<TicketScreen> {
                         builder: (context, s) {
                           return IconButton(
                             onPressed: () => _openFilterScreen(context),
-                            icon: const Icon(
-                              Icons.filter_list,
+                            icon: SvgPicture.asset(
+                              'assets/filter_icon.svg',
+                              width: 22,
+                              height: 22,
                               color: AppColors.textPrimary,
                             ),
                           );

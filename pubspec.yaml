@@ -38,6 +38,7 @@ dependencies:
   # State management
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/filter_icon.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
