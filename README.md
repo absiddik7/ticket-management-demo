@@ -96,24 +96,21 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 
 | Tickets Screen | Filter Screen | Contact Screen | Profile Screen |
 |:--------------:|:-------------:|:--------------:|:--------------:|
-| ![Tickets Light](assets/screenshots/tickets_light.png) | ![Filter Light](assets/screenshots/filter_light.png) | ![Contacts Light](assets/screenshots/contacts_light.png) | ![Profile Light](assets/screenshots/profile_light.png) |
+| ![Screenshot_2026-02-17-19-11-57-610_com example ticket_management](https://github.com/user-attachments/assets/2b21b35e-6383-4e6e-9740-c375548050fa) | ![Screenshot_2026-02-17-19-12-22-231_com example ticket_management](https://github.com/user-attachments/assets/ee7abfac-50c7-4953-af64-23e3c69c5e57) | ![Screenshot_2026-02-17-19-12-03-052_com example ticket_management](https://github.com/user-attachments/assets/a81120e3-1a51-4788-9d45-847e1cbc1103) | ![Screenshot_2026-02-17-19-12-16-299_com example ticket_management](https://github.com/user-attachments/assets/818ddc61-85a0-48ee-83f4-5a9fa953ebf2) |
 
 ### Dark Theme
 
 | Tickets Screen | Filter Screen | Contact Screen | Profile Screen |
 |:--------------:|:-------------:|:--------------:|:--------------:|
-| ![Tickets Dark](assets/screenshots/tickets_dark.png) | ![Filter Dark](assets/screenshots/filter_dark.png) | ![Contacts Dark](assets/screenshots/contacts_dark.png) | ![Profile Dark](assets/screenshots/profile_dark.png) |
+| ![Screenshot_2026-02-17-19-12-30-157_com example ticket_management](https://github.com/user-attachments/assets/8d06a175-47bf-4119-b1dc-758a6855bdda) | ![Screenshot_2026-02-17-19-57-51-585_com example ticket_management](https://github.com/user-attachments/assets/03ca3a72-5559-4257-80e3-ea08376a7b9e) | ![Screenshot_2026-02-17-19-12-32-244_com example ticket_management](https://github.com/user-attachments/assets/29590ea5-d967-4959-87c2-2490bf86a7f8) | ![Screenshot_2026-02-17-19-57-47-634_com example ticket_management](https://github.com/user-attachments/assets/82a42b0d-e8ab-4245-8aeb-6c21f0a215af) |
 
 ### Additional Views
 
-| Ticket Detail | Contact Detail | Empty State | Loading State |
+| Ticket Detail | Contact Detail | Search | Filtered List |
 |:-------------:|:--------------:|:-----------:|:-------------:|
-| ![Ticket Detail](assets/screenshots/ticket_detail.png) | ![Contact Detail](assets/screenshots/contact_detail.png) | ![Empty State](assets/screenshots/empty_state.png) | ![Loading](assets/screenshots/loading.png) |
+| ![Screenshot_2026-02-17-19-12-51-042_com example ticket_management](https://github.com/user-attachments/assets/e527494f-0827-4114-8dc1-cf2ea151289b) | ![Screenshot_2026-02-17-19-12-54-825_com example ticket_management](https://github.com/user-attachments/assets/30adbc9a-1f1a-4676-8c04-630756c10b23) | ![Screenshot_2026-02-17-19-13-36-657_com example ticket_management](https://github.com/user-attachments/assets/11af2290-e8c1-4aec-adaf-e370c2bbc095) | ![Screenshot_2026-02-17-19-13-28-684_com example ticket_management](https://github.com/user-attachments/assets/55ab972c-07b7-40be-a9c5-ffc77e2761f5) |
 
 </div>
-
-> **Note**: Add your screenshots to the `assets/screenshots/` folder with the corresponding names.
-
 ---
 
 ## 🎬 Demo Video
@@ -121,9 +118,6 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 <div align="center">
 
 https://github.com/user-attachments/assets/ba5d3efe-30b5-48ea-ad08-34274fc19987
-
-
-*Click to watch the full demo video*
 
 </div>
 
