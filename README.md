@@ -120,7 +120,8 @@ The **Ticket Management App** is a comprehensive mobile solution designed for en
 
 <div align="center">
 
-[![Demo Video](assets/screenshots/video_thumbnail.png)](https://your-video-link.com)
+https://github.com/user-attachments/assets/ba5d3efe-30b5-48ea-ad08-34274fc19987
+
 
 *Click to watch the full demo video*
 
